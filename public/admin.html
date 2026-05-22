@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบหลังบ้าน - Manage Creative Portfolio</title>
+    
+    <!-- Meta Tags สำหรับ SEO -->
+    <meta name="description" content="แผงควบคุมระบบสำหรับจัดการโปรเจกต์และลิงก์ของเว็บไซต์ในพอร์ตโฟลิโอ">
+    <meta name="author" content="Creative Developer">
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0B0F19',
+                        darkBlue: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Style for Glassmorphism & Custom Scrollbar -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+        }
+        .font-title {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+        /* Shake animation for errors */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-100 overflow-x-hidden font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Background Decorative Orbs -->
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none -z-10"></div>
+    <div class="absolute top-[30%] right-[-10%] w-[600px] h-[600px] rounded-full bg-purple-900/20 blur-[130px] pointer-events-none -z-10"></div>
+    <div class="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-emerald-900/10 blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-40 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="font-title text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
+                    PORTFOLIO
+                </a>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ADMIN SYSTEM</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-200 flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    กลับสู่หน้าหลัก
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-6 py-10 flex-grow w-full">
+        <!-- Stats cards & Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+            <div>
+                <h1 class="font-title text-3xl font-extrabold text-white">แผงควบคุมระบบ (Dashboard)</h1>
+                <p class="text-sm text-gray-400 mt-1">เพิ่ม ลบ แก้ไข โปรเจกต์ในพอร์ตโฟลิโอของคุณได้ในที่เดียวด้วยพลังดึงข้อมูล Open Graph</p>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="flex gap-4">
+                <div class="glass-card px-5 py-3.5 rounded-2xl flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400">ทั้งหมด</div>
+                        <div id="stat-total" class="font-title text-lg font-bold text-white">0</div>
+                    </div>
+                </div>
+                <div class="glass-card px-5 py-3.5 rounded-2xl flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400">เผยแพร่แล้ว</div>
+                        <div id="stat-published" class="font-title text-lg font-bold text-emerald-400">0</div>
+                    </div>
+                </div>
+                <div class="glass-card px-5 py-3.5 rounded-2xl flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400">ฉบับร่าง</div>
+                        <div id="stat-drafts" class="font-title text-lg font-bold text-amber-400">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Side: URL Fetching & Custom Editing Form -->
+            <section class="lg:col-span-7 flex flex-col gap-6">
+                
+                <!-- URL Scraping Box -->
+                <div class="glass-card rounded-3xl p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-28 h-28 rounded-full bg-indigo-500/5 blur-2xl pointer-events-none"></div>
+                    
+                    <h2 class="font-title text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                        ดึงข้อมูลและเพิ่มจาก URL ใหม่
+                    </h2>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-grow">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-500">
+                                🔗
+                            </span>
+                            <input 
+                                type="url" 
+                                id="scraping-url" 
+                                placeholder="ใส่ URL เช่น https://example.com" 
+                                class="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm transition text-white placeholder-gray-500"
+                            >
+                        </div>
+                        <button 
+                            type="button" 
+                            id="fetch-btn" 
+                            onclick="fetchWebsiteMetadata()"
+                            class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm text-white transition duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95 shrink-0"
+                        >
+                            <span id="btn-text">ดึงข้อมูลเว็บไซต์</span>
+                            <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2.5">
+                        ระบบจะทำการส่ง Request ไปยังหน้าเป้าหมาย เพื่ออ่านข้อมูล Open Graph (`og:image`, `og:title`, `og:description`) มาประมวลผลเป็นชิ้นงานให้โดยอัตโนมัติ
+                    </p>
+                </div>
+
+                <!-- Main Form (New/Edit) -->
+                <div class="glass-card rounded-3xl p-6 relative">
+                    <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-5">
+                        <h2 class="font-title text-xl font-bold text-white flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
+                            <span id="form-action-title">ข้อมูลโปรเจกต์</span>
+                        </h2>
+                        <!-- Cancel Editing mode indicator -->
+                        <button 
+                            id="cancel-edit-btn" 
+                            onclick="cancelEditing()" 
+                            class="hidden text-xs px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 transition"
+                        >
+                            ยกเลิกการแก้ไข
+                        </button>
+                    </div>
+
+                    <form id="portfolio-form" onsubmit="savePortfolioProject(event)" class="space-y-4">
+                        <input type="hidden" id="project-id" value="">
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5" for="project-url">
+                                URL ของโปรเจกต์ <span class="text-pink-500">*</span>
+                            </label>
+                            <input 
+                                type="url" 
+                                id="project-url" 
+                                required
+                                placeholder="https://example.com" 
+                                class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white"
+                                oninput="updateLivePreview()"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5" for="project-title">
+                                หัวข้อโปรเจกต์ (Title) <span class="text-pink-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="project-title" 
+                                required
+                                placeholder="ระบุหัวข้อหรือชื่อเว็บไซต์" 
+                                class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white"
+                                oninput="updateLivePreview()"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5" for="project-description">
+                                คำอธิบายย่อ (Description)
+                            </label>
+                            <textarea 
+                                id="project-description" 
+                                rows="3"
+                                placeholder="ระบุรายละเอียดโปรเจกต์ย่อๆ ของคุณ" 
+                                class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white resize-none"
+                                oninput="updateLivePreview()"
+                            ></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                            <!-- Image URL Field -->
+                            <div class="md:col-span-8">
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5" for="project-image">
+                                    ลิงก์รูปภาพตัวอย่าง (Image URL)
+                                </label>
+                                <input 
+                                    type="url" 
+                                    id="project-image" 
+                                    placeholder="https://example.com/cover.png" 
+                                    class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white"
+                                    oninput="updateLivePreview()"
+                                >
+                            </div>
+                            <!-- Status Dropdown -->
+                            <div class="md:col-span-4">
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5" for="project-status">
+                                    สถานะการแสดงผล
+                                </label>
+                                <select 
+                                    id="project-status" 
+                                    class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white [&>option]:bg-dark"
+                                >
+                                    <option value="published" selected>Published (เผยแพร่)</option>
+                                    <option value="draft">Draft (ฉบับร่าง)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex justify-end">
+                            <button 
+                                type="submit" 
+                                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl text-sm transition duration-200 flex items-center gap-2 hover:shadow-lg hover:shadow-indigo-600/10"
+                            >
+                                <span id="submit-btn-text">บันทึกลงใน Portfolio</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </section>
+
+            <!-- Right Side: Interactive Live Card Preview -->
+            <section class="lg:col-span-5 flex flex-col gap-6">
+                <div class="glass-card rounded-3xl p-6 sticky top-28">
+                    <h2 class="font-title text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        พรีวิวเรียลไทม์ (Live Preview)
+                    </h2>
+                    
+                    <!-- Simulating the design of custom cards from index.html -->
+                    <div id="live-preview-card" class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 group border border-white/10 p-0">
+                        <div>
+                            <!-- Card Image View -->
+                            <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60" id="preview-image-container">
+                                <!-- Dynamic JS Injection -->
+                                <div class="w-full h-full bg-gradient-to-br from-violet-800 to-indigo-900 flex items-center justify-center p-6 text-center select-none">
+                                    <div class="font-title text-sm font-bold text-white/50">ยังไม่มีข้อมูลรูปภาพ</div>
+                                </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-6">
+                                <div class="text-xs text-indigo-400 font-semibold mb-1 uppercase tracking-wider truncate" id="preview-hostname">
+                                    YOURWEBSITE.COM
+                                </div>
+                                <h3 class="font-title text-lg font-bold text-white line-clamp-1 mb-2" id="preview-title">
+                                    หัวข้อโปรเจกต์
+                                </h3>
+                                <p class="text-gray-400 text-xs leading-relaxed line-clamp-3" id="preview-desc">
+                                    กรอกข้อมูล หรือคลิกปุ่มด้านข้างเพื่อทดสอบดึงข้อมูลเมทาแท็กคำอธิบายเว็บไซต์
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="px-6 pb-6 pt-2">
+                            <div class="w-full py-2 px-4 rounded-xl bg-white/5 border border-white/5 text-center text-xs font-semibold text-gray-400 flex items-center justify-center gap-2">
+                                Link URL ต้นฉบับ
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Project Management list / Table section -->
+        <section class="mt-12">
+            <div class="glass-card rounded-3xl p-6">
+                <!-- Headline, search -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
+                    <div>
+                        <h2 class="font-title text-xl font-bold text-white">รายการผลงานทั้งหมด</h2>
+                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูลเบราว์เซอร์ของคุณ</p>
+                    </div>
+                    
+                    <!-- Search Input -->
+                    <div class="relative max-w-sm w-full">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 text-sm">
+                            🔍
+                        </span>
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="ค้นหาตามหัวข้อ หรือ URL..." 
+                            class="w-full pl-9 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-xs text-white"
+                            oninput="renderProjectsList()"
+                        >
+                    </div>
+                </div>
+
+                <!-- Empty display or Table layout -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-300">
+                        <thead class="text-xs text-gray-400 uppercase tracking-wider border-b border-white/5">
+                            <tr>
+                                <th class="pb-3 pl-4">รูปภาพ</th>
+                                <th class="pb-3">ข้อมูลหน้าเว็บ</th>
+                                <th class="pb-3">ลิงก์ต้นฉบับ</th>
+                                <th class="pb-3 text-center">สถานะ</th>
+                                <th class="pb-3 text-right pr-4">การทำงาน</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body" class="divide-y divide-white/5">
+                            <!-- JS Injection -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No project helper in Table -->
+                <div id="table-empty-state" class="hidden text-center py-16">
+                    <p class="text-gray-400 text-sm">ไม่พบโปรเจกต์ที่ค้นหา หรือคุณยังไม่ได้เพิ่มโปรเจกต์ใดๆ เข้ามา</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav w-full">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                &copy; <span id="year"></span> Creative Portfolio System. Powered by Node.js Serverless.
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="hover:text-indigo-400 font-medium transition">ไปหน้าพอร์ตโฟลิโอ</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
+
+    <!-- Scripting for UI and System Control -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // System state
+        let projects = [];
+        let editingProjectId = null;
+
+        // On Page Load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects();
+            updateLivePreview();
+        });
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `glass-card flex items-center gap-3 px-4 py-3.5 rounded-xl border border-white/10 shadow-2xl transition duration-300 transform translate-y-6 opacity-0 shrink-0 min-w-[260px]`;
+            
+            let iconColor = 'text-emerald-400';
+            let iconSvg = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            
+            if (type === 'error') {
+                iconColor = 'text-red-400';
+                iconSvg = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+            } else if (type === 'info') {
+                iconColor = 'text-indigo-400';
+                iconSvg = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            }
+
+            toast.innerHTML = `
+                <div class="${iconColor} shrink-0">${iconSvg}</div>
+                <div class="text-xs font-medium text-white flex-grow">${message}</div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-6', 'opacity-0');
+            }, 50);
+
+            // Remove toast
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3500);
+        }
+
+        // Load projects from browser storage
+        function loadProjects() {
+            try {
+                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            } catch (e) {
+                console.error('Failed to parse portfolio projects:', e);
+                projects = [];
+            }
+            updateStats();
+            renderProjectsList();
+        }
+
+        // Save projects to browser storage
+        function saveProjectsToLocalStorage() {
+            localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+            updateStats();
+            renderProjectsList();
+        }
+
+        // Recalculate and update the dashboard statistics
+        function updateStats() {
+            const total = projects.length;
+            const published = projects.filter(p => p.status === 'published').length;
+            const drafts = total - published;
+
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-published').textContent = published;
+            document.getElementById('stat-drafts').textContent = drafts;
+        }
+
+        // Live preview of card update
+        function updateLivePreview() {
+            const urlInput = document.getElementById('project-url').value.trim();
+            const titleInput = document.getElementById('project-title').value.trim();
+            const descInput = document.getElementById('project-description').value.trim();
+            const imgInput = document.getElementById('project-image').value.trim();
+
+            // Handle hostname preview
+            let hostname = 'YOURWEBSITE.COM';
+            if (urlInput) {
+                try {
+                    hostname = new URL(urlInput).hostname.toUpperCase();
+                } catch (_) {
+                    hostname = 'LINK.COM';
+                }
+            }
+            document.getElementById('preview-hostname').textContent = hostname;
+            document.getElementById('preview-title').textContent = titleInput || 'หัวข้อโปรเจกต์';
+            document.getElementById('preview-desc').textContent = descInput || 'กรอกข้อมูล หรือคลิกปุ่มด้านข้างเพื่อทดสอบดึงข้อมูลเมทาแท็กคำอธิบายเว็บไซต์';
+
+            const imageContainer = document.getElementById('preview-image-container');
+            if (imgInput) {
+                imageContainer.innerHTML = `
+                    <img src="${escapeHtml(imgInput)}" alt="Preview" class="w-full h-full object-cover" onerror="handlePreviewImageError(this, '${escapeHtml(titleInput)}')">
+                `;
+            } else {
+                imageContainer.innerHTML = `
+                    <div class="w-full h-full bg-gradient-to-br from-violet-800 to-indigo-900 flex items-center justify-center p-6 text-center select-none relative">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent"></div>
+                        <div class="font-title text-sm font-bold text-white/90 z-10">${escapeHtml(titleInput) || 'ยังไม่มีข้อมูลรูปภาพ'}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function handlePreviewImageError(imgEl, title) {
+            imgEl.onerror = null;
+            const parent = imgEl.parentElement;
+            parent.innerHTML = `
+                <div class="w-full h-full bg-gradient-to-br from-red-950 to-indigo-950 flex items-center justify-center p-6 text-center select-none">
+                    <div class="font-title text-xs font-bold text-red-300">ภาพไม่สามารถโหลดได้<br><span class="text-white/60 text-[10px]">${escapeHtml(title) || 'ชิ้นงาน'}</span></div>
+                </div>
+            `;
+        }
+
+        // Fetch Metadata AJAX via Serverless
+        async function fetchWebsiteMetadata() {
+            const scrapingUrlInput = document.getElementById('scraping-url');
+            const targetUrl = scrapingUrlInput.value.trim();
+            const fetchBtn = document.getElementById('fetch-btn');
+            const btnText = document.getElementById('btn-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            if (!targetUrl) {
+                showToast('กรุณาระบุ URL ที่ต้องการดึงข้อมูล!', 'error');
+                scrapingUrlInput.classList.add('border-red-500', 'animate-shake');
+                setTimeout(() => {
+                    scrapingUrlInput.classList.remove('animate-shake');
+                }, 500);
+                return;
+            }
+
+            // Simple validation
+            try {
+                new URL(targetUrl);
+                scrapingUrlInput.classList.remove('border-red-500');
+            } catch (e) {
+                showToast('รูปแบบ URL ไม่ถูกต้อง (ต้องการ: https://...)', 'error');
+                scrapingUrlInput.classList.add('border-red-500');
+                return;
+            }
+
+            // Set loading state
+            fetchBtn.disabled = true;
+            btnText.classList.add('opacity-0');
+            loadingSpinner.classList.remove('hidden');
+
+            showToast('กำลังวิเคราะห์และดึงข้อมูล Open Graph เมทาแท็ก...', 'info');
+
+            try {
+                const response = await fetch('/api/fetch-metadata', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: targetUrl }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    const data = result.data;
+                    
+                    // Populate Form
+                    document.getElementById('project-url').value = data.original_url || targetUrl;
+                    document.getElementById('project-title').value = data.title || '';
+                    document.getElementById('project-description').value = data.description || '';
+                    document.getElementById('project-image').value = data.image_url || '';
+                    
+                    updateLivePreview();
+                    showToast('ดึงข้อมูลหน้าเว็บเรียบร้อยแล้ว! สามารถแก้ไขเพิ่มเติมได้', 'success');
+                    
+                    // Clear scraping field
+                    scrapingUrlInput.value = '';
+                } else {
+                    showToast(result.message || 'เกิดข้อผิดพลาดในการดึงข้อมูลเมทาแท็ก', 'error');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                showToast('ไม่สามารถเชื่อมต่อ Serverless API ได้ หรือ Timeout', 'error');
+            } finally {
+                // Reset loading state
+                fetchBtn.disabled = false;
+                btnText.classList.remove('opacity-0');
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        // Save (Add or Update) project
+        function savePortfolioProject(event) {
+            event.preventDefault();
+
+            const pId = document.getElementById('project-id').value;
+            const pUrl = document.getElementById('project-url').value.trim();
+            const pTitle = document.getElementById('project-title').value.trim();
+            const pDesc = document.getElementById('project-description').value.trim();
+            const pImage = document.getElementById('project-image').value.trim();
+            const pStatus = document.getElementById('project-status').value;
+
+            if (!pUrl || !pTitle) {
+                showToast('กรุณากรอกข้อมูลฟิลด์ที่จำเป็น (*) ให้ครบถ้วน', 'error');
+                return;
+            }
+
+            if (editingProjectId !== null) {
+                // Edit Mode
+                const index = projects.findIndex(p => p.id === editingProjectId);
+                if (index !== -1) {
+                    projects[index] = {
+                        ...projects[index],
+                        original_url: pUrl,
+                        title: pTitle,
+                        description: pDesc,
+                        image_url: pImage,
+                        status: pStatus,
+                        updated_at: new Date().toISOString()
+                    };
+                    showToast('อัปเดตข้อมูลโปรเจกต์เรียบร้อย!', 'success');
+                }
+                cancelEditing();
+            } else {
+                // Create Mode
+                const newProject = {
+                    id: Date.now().toString(), // String unique ID
+                    original_url: pUrl,
+                    title: pTitle,
+                    description: pDesc,
+                    image_url: pImage,
+                    status: pStatus,
+                    created_at: new Date().toISOString()
+                };
+                projects.unshift(newProject); // Prepend to the top
+                showToast('บันทึกเพิ่มโปรเจกต์ลงในพอร์ตโฟลิโอสำเร็จ!', 'success');
+                resetForm();
+            }
+
+            saveProjectsToLocalStorage();
+        }
+
+        // Put a project into editing mode
+        function editProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            editingProjectId = id;
+            document.getElementById('project-id').value = project.id;
+            document.getElementById('project-url').value = project.original_url;
+            document.getElementById('project-title').value = project.title;
+            document.getElementById('project-description').value = project.description;
+            document.getElementById('project-image').value = project.image_url;
+            document.getElementById('project-status').value = project.status;
+
+            // Form Title, button and helper
+            document.getElementById('form-action-title').textContent = 'แก้ไขโปรเจกต์';
+            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขโปรเจกต์';
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+            updateLivePreview();
+            showToast('เริ่มทำการแก้ไขโปรเจกต์...', 'info');
+
+            // Scroll to form smoothly
+            document.getElementById('portfolio-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Cancel Edit Mode
+        function cancelEditing() {
+            editingProjectId = null;
+            document.getElementById('form-action-title').textContent = 'ข้อมูลโปรเจกต์';
+            document.getElementById('submit-btn-text').textContent = 'บันทึกลงใน Portfolio';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+            resetForm();
+        }
+
+        // Reset form to defaults
+        function resetForm() {
+            document.getElementById('project-id').value = '';
+            document.getElementById('portfolio-form').reset();
+            updateLivePreview();
+        }
+
+        // Quick toggle Status (Draft <-> Published) directly in the table
+        function toggleProjectStatus(id) {
+            const index = projects.findIndex(p => p.id === id);
+            if (index !== -1) {
+                projects[index].status = projects[index].status === 'published' ? 'draft' : 'published';
+                projects[index].updated_at = new Date().toISOString();
+                saveProjectsToLocalStorage();
+                showToast(`เปลี่ยนสถานะเป็น ${projects[index].status === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'}`, 'success');
+            }
+        }
+
+        // Delete a project (with quick alert confirm)
+        function deleteProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            const confirmDel = confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}"?`);
+            if (confirmDel) {
+                projects = projects.filter(p => p.id !== id);
+                if (editingProjectId === id) {
+                    cancelEditing();
+                }
+                saveProjectsToLocalStorage();
+                showToast('ลบโปรเจกต์ออกจากระบบเรียบร้อย!', 'success');
+            }
+        }
+
+        // Renders the list in the administration section with search and actions
+        function renderProjectsList() {
+            const tableBody = document.getElementById('projects-table-body');
+            const emptyState = document.getElementById('table-empty-state');
+            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+
+            // Filter projects
+            const filteredProjects = projects.filter(p => {
+                return p.title.toLowerCase().includes(searchVal) || p.original_url.toLowerCase().includes(searchVal);
+            });
+
+            tableBody.innerHTML = '';
+
+            if (filteredProjects.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            filteredProjects.forEach((project, index) => {
+                const isPublished = project.status === 'published';
+                const statusBadge = isPublished
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-pointer" onclick="toggleProjectStatus('${project.id}')">
+                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-pointer" onclick="toggleProjectStatus('${project.id}')">
+                         <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Draft (ร่าง)
+                       </span>`;
+
+                const fallbackName = getHostname(project.original_url);
+                const tableImage = project.image_url
+                    ? `<img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" class="w-16 h-10 object-cover rounded-lg bg-gray-900 border border-white/5" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22><rect width=%22100%22 height=%2260%22 fill=%22%232e2e4f%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%237f7fb7%22 font-size=%2210%22 font-weight=%22bold%22>FAIL</text></svg>'">`
+                    : `<div class="w-16 h-10 bg-indigo-900/60 rounded-lg flex items-center justify-center border border-white/5 text-[9px] font-bold text-indigo-300 select-none uppercase truncate px-1">${escapeHtml(fallbackName)}</div>`;
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-white/[0.01] transition';
+                tr.innerHTML = `
+                    <td class="py-4 pl-4">${tableImage}</td>
+                    <td class="py-4 pr-3 max-w-xs">
+                        <div class="font-semibold text-white truncate text-sm" title="${escapeHtml(project.title)}">${escapeHtml(project.title)}</div>
+                        <div class="text-[10px] text-indigo-400 font-semibold uppercase tracking-wider truncate mt-0.5" title="${escapeHtml(project.original_url)}">${escapeHtml(fallbackName)}</div>
+                    </td>
+                    <td class="py-4 max-w-[200px]">
+                        <a href="${escapeHtml(project.original_url)}" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 transition hover:underline truncate block" title="${escapeHtml(project.original_url)}">
+                            ${escapeHtml(project.original_url)} ↗
+                        </a>
+                    </td>
+                    <td class="py-4 text-center">${statusBadge}</td>
+                    <td class="py-4 text-right pr-4">
+                        <div class="flex items-center justify-end gap-2">
+                            <button 
+                                onclick="editProject('${project.id}')"
+                                class="p-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/10 transition hover:scale-105"
+                                title="แก้ไขข้อมูลโปรเจกต์"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            </button>
+                            <button 
+                                onclick="deleteProject('${project.id}')"
+                                class="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/10 transition hover:scale-105"
+                                title="ลบออกจากระบบ"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Helper helper
+        function getHostname(urlStr) {
+            try {
+                return new URL(urlStr).hostname;
+            } catch (_) {
+                return 'LINK.COM';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

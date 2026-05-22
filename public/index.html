@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Creative Portfolio</title>
+    
+    <!-- Meta Tags สำหรับ SEO & Testing -->
+    <meta name="description" content="พื้นที่แสดงผลงานและโปรเจกต์สร้างสรรค์ของฉัน รวบรวมลิงก์และผลงานคุณภาพด้วยสไตล์ที่ทันสมัย">
+    <meta name="author" content="Creative Developer">
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0B0F19',
+                        darkBlue: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Style for Glassmorphism & Custom Scrollbar -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+        }
+        .font-title {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15);
+        }
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="text-gray-100 overflow-x-hidden font-sans min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Background Decorative Orbs -->
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none -z-10"></div>
+    <div class="absolute top-[40%] right-[-10%] w-[600px] h-[600px] rounded-full bg-purple-900/20 blur-[130px] pointer-events-none -z-10"></div>
+    <div class="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-emerald-900/10 blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-title text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
+                PORTFOLIO
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition duration-200">ผลงานทั้งหมด</a>
+                <a href="admin.html" class="text-sm font-medium px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition duration-200 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    แผงควบคุมระบบ
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-20 pb-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-6 uppercase tracking-wider">
+                💡 Web Developer Creative Portfolio
+            </span>
+            <h1 class="font-title text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                รังสรรค์ไอเดียสู่นวัตกรรม<br>
+                <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    ผ่านโปรเจกต์สุดพิเศษ
+                </span>
+            </h1>
+            <p class="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+                รวบรวมชิ้นงาน เทคโนโลยี และเว็บไซต์ที่สร้างขึ้นและพัฒนาอย่างสร้างสรรค์ โดยระบบจะดึงข้อมูลภาพและคำอธิบายมาจากการกรอก URL อัตโนมัติ ปลุกความเป็นไปได้ของการจัดแสดงผลงานที่ไร้พรมแดน
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#projects" class="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition duration-200 shadow-lg shadow-indigo-600/30">
+                    ดูผลงานทั้งหมด
+                </a>
+                <a href="admin.html" class="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 font-semibold border border-white/10 transition duration-200">
+                    เพิ่มโปรเจกต์ของคุณ
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portfolio Grid Section -->
+    <main id="projects" class="max-w-7xl mx-auto px-6 py-12 flex-grow">
+        <div class="flex items-center justify-between border-b border-white/5 pb-6 mb-12">
+            <div>
+                <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">ผลงานสะสม (Projects)</h2>
+                <p class="text-sm text-gray-400 mt-1">คอลเลกชันลิงก์โปรเจกต์ที่น่าสนใจและหน้าเว็บต่างๆ</p>
+            </div>
+            <div class="text-sm text-gray-400">
+                มีทั้งหมด <span id="project-count" class="text-indigo-400 font-semibold">0</span> โปรเจกต์
+            </div>
+        </div>
+
+        <!-- Render Container (เดี๋ยวให้ JS วาดตรงนี้) -->
+        <div id="projects-container"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                &copy; <span id="year"></span> Creative Portfolio. สงวนลิขสิทธิ์ทั้งหมด
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-gray-300 transition">นโยบายส่วนบุคคล</a>
+                <a href="admin.html" class="hover:text-indigo-400 font-medium transition">Admin Panel</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS สำหรับเรนเดอร์การ์ดโปรเจกต์จาก LocalStorage -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('projects-container');
+            const projectCountSpan = document.getElementById('project-count');
+
+            // 1. Load projects from LocalStorage
+            let projects = [];
+            try {
+                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            } catch (e) {
+                console.error('Failed to parse localStorage:', e);
+                projects = [];
+            }
+
+            // Filter for published status only
+            const publishedProjects = projects.filter(p => p.status === 'published');
+            projectCountSpan.textContent = publishedProjects.length;
+
+            if (publishedProjects.length === 0) {
+                // Render Empty State
+                container.className = "";
+                container.innerHTML = `
+                    <div class="text-center py-24 glass-card rounded-3xl max-w-2xl mx-auto p-8 border border-dashed border-white/10">
+                        <div class="w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        </div>
+                        <h3 class="font-title text-xl font-bold text-white mb-2">ยังไม่มีโปรเจกต์จัดแสดง</h3>
+                        <p class="text-gray-400 mb-6 max-w-sm mx-auto">ระบบหลังบ้านยังว่างอยู่ คุณสามารถเข้าไปเพื่อดึงข้อมูลลิงก์ของเว็บไซต์และเพิ่มเข้ามาได้ทันที!</p>
+                        <a href="admin.html" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition duration-200">
+                            ไปที่ระบบหลังบ้านเพื่อเพิ่มผลงาน
+                        </a>
+                    </div>
+                `;
+            } else {
+                // Render Responsive Grid
+                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8";
+                
+                let htmlContent = '';
+                publishedProjects.forEach((project, index) => {
+                    const hostName = getHostname(project.original_url);
+                    const imageMarkup = project.image_url 
+                        ? `<img src="${project.image_url}" alt="${escapeHtml(project.title)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="handleImageError(this, '${escapeHtml(project.title)}')">`
+                        : getFallbackGradient(project.title, index);
+
+                    htmlContent += `
+                        <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] group relative">
+                            <div>
+                                <!-- Image Frame -->
+                                <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60">
+                                    ${imageMarkup}
+                                    
+                                    <!-- Hover Link Overlay -->
+                                    <div class="absolute inset-0 bg-indigo-950/80 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-20">
+                                        <span class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300 shadow-md">
+                                            เยี่ยมชมเว็บไซต์ ↗
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Body -->
+                                <div class="p-6">
+                                    <header class="mb-3">
+                                        <div class="text-xs text-indigo-400 font-semibold mb-1 uppercase tracking-wider truncate" title="${escapeHtml(project.original_url)}">
+                                            ${escapeHtml(hostName)}
+                                        </div>
+                                        <h3 class="font-title text-xl font-bold text-white line-clamp-1 group-hover:text-indigo-300 transition duration-200">
+                                            ${escapeHtml(project.title)}
+                                        </h3>
+                                    </header>
+                                    <p class="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                                        ${escapeHtml(project.description)}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Footer button -->
+                            <div class="px-6 pb-6 pt-2">
+                                <a 
+                                    href="${escapeHtml(project.original_url)}" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    class="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 text-center text-xs font-semibold text-gray-300 group-hover:text-white transition duration-200 flex items-center justify-center gap-2"
+                                    id="project-card-${index}"
+                                >
+                                    Link URL ต้นฉบับ
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                });
+                container.innerHTML = htmlContent;
+            }
+        });
+
+        // Helper functions
+        function getHostname(urlStr) {
+            try {
+                return new URL(urlStr).hostname;
+            } catch (_) {
+                return 'LINK.COM';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function handleImageError(imgEl, title) {
+            imgEl.onerror = null;
+            const parent = imgEl.parentElement;
+            parent.innerHTML = `
+                <div class='w-full h-full bg-gradient-to-br from-purple-800 to-indigo-900 flex items-center justify-center p-6 text-center select-none'>
+                    <div class='font-title text-lg font-bold text-white/80 line-clamp-2'>${title}</div>
+                </div>
+            `;
+        }
+
+        function getFallbackGradient(title, index) {
+            const gradients = [
+                'from-violet-800 to-indigo-900',
+                'from-emerald-800 to-teal-900',
+                'from-pink-800 to-rose-900',
+                'from-amber-700 to-orange-900',
+            ];
+            const randomGrad = gradients[index % gradients.length];
+            return `
+                <div class="w-full h-full bg-gradient-to-br ${randomGrad} flex items-center justify-center p-6 text-center select-none relative group-hover:opacity-90 transition">
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent"></div>
+                    <div class="font-title text-lg font-bold text-white/90 line-clamp-2 drop-shadow-md z-10 px-4">${escapeHtml(title)}</div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

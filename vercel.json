@@ -1,21 +1,8 @@
 {
   "version": 2,
-  "env": {
-    "LOG_CHANNEL": "stderr",
-    "SESSION_DRIVER": "cookie",
-    "CACHE_STORE": "array"
-  },
-  "functions": {
-    "api/index.php": {
-      "runtime": "vercel-php@0.7.1"
-    }
-  },
+  "cleanUrls": true,
   "routes": [
-    { "src": "/build/(.*)", "dest": "/public/build/$1" },
-    { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
-    { "src": "/robots.txt", "dest": "/public/robots.txt" },
-    { "src": "/(css|js|images)/(.*)", "dest": "/public/$1/$2" },
-    { "src": "/(.*)", "dest": "/api/index.php" }
-  ],
-  "outputDirectory": "public"
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ]
 }
