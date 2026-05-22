@@ -260,6 +260,14 @@
                                     class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white"
                                     oninput="updateLivePreview()"
                                 >
+                                <div class="mt-2 flex items-center gap-2">
+                                    <label class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-semibold text-gray-300 hover:text-white cursor-pointer transition flex items-center gap-1.5 active:scale-95">
+                                        <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                        อัปโหลดรูปภาพจากเครื่อง
+                                        <input type="file" id="local-image-file" accept="image/*" class="hidden" onchange="handleLocalImageUpload(event)">
+                                    </label>
+                                    <span id="upload-status-text" class="text-[10px] text-gray-500">รองรับ JPG, PNG, WebP (บีบอัดอัตโนมัติ)</span>
+                                </div>
                             </div>
                             <!-- Status Dropdown -->
                             <div class="md:col-span-4">
@@ -302,11 +310,20 @@
                     <div id="live-preview-card" class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 group border border-white/10 p-0">
                         <div>
                             <!-- Card Image View -->
-                            <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60" id="preview-image-container">
-                                <!-- Dynamic JS Injection -->
-                                <div class="w-full h-full bg-gradient-to-br from-violet-800 to-indigo-900 flex items-center justify-center p-6 text-center select-none">
-                                    <div class="font-title text-sm font-bold text-white/50">ยังไม่มีข้อมูลรูปภาพ</div>
+                            <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60">
+                                <div id="preview-image-container" class="w-full h-full">
+                                    <!-- Dynamic JS Injection -->
+                                    <div class="w-full h-full bg-gradient-to-br from-violet-800 to-indigo-900 flex items-center justify-center p-6 text-center select-none">
+                                        <div class="font-title text-sm font-bold text-white/50">ยังไม่มีข้อมูลรูปภาพ</div>
+                                    </div>
                                 </div>
+                                
+                                <!-- Hover Link Overlay -->
+                                <a href="#" target="_blank" rel="noopener noreferrer" id="preview-hover-link" class="absolute inset-0 bg-indigo-950/80 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-20 pointer-events-none">
+                                    <span class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300 shadow-md">
+                                        เยี่ยมชมเว็บไซต์ ↗
+                                    </span>
+                                </a>
                             </div>
 
                             <!-- Card Body -->
@@ -406,6 +423,64 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
+        // Local Image Upload Handler
+        function handleLocalImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show indicator
+            const statusText = document.getElementById('upload-status-text');
+            statusText.textContent = 'กำลังประมวลผลรูปภาพ...';
+            statusText.className = 'text-[10px] text-indigo-400 font-semibold animate-pulse';
+
+            compressImage(file, function(base64Data) {
+                document.getElementById('project-image').value = base64Data;
+                updateLivePreview();
+                statusText.textContent = 'อัปโหลดเสร็จสมบูรณ์!';
+                statusText.className = 'text-[10px] text-emerald-400 font-semibold';
+                showToast('โหลดรูปภาพจากเครื่องสำเร็จและบีบอัดเรียบร้อย!', 'success');
+                
+                // Reset file input so same file can be selected again
+                event.target.value = '';
+            });
+        }
+
+        // Image compression using HTML Canvas
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const max_width = 800; // Optimal size for portfolio thumbnail cards
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > max_width) {
+                        height = Math.round((height * max_width) / width);
+                        width = max_width;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Compress as JPEG with 70% quality (great ratio of quality to byte size)
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    callback(compressedBase64);
+                };
+                img.onerror = function() {
+                    showToast('ไม่สามารถอ่านไฟล์รูปภาพนี้ได้', 'error');
+                    const statusText = document.getElementById('upload-status-text');
+                    statusText.textContent = 'เกิดข้อผิดพลาดในการโหลดรูป';
+                    statusText.className = 'text-[10px] text-red-400';
+                };
+            };
+        }
+
         // System state
         let projects = [];
         let editingProjectId = null;
@@ -503,6 +578,16 @@
             document.getElementById('preview-hostname').textContent = hostname;
             document.getElementById('preview-title').textContent = titleInput || 'หัวข้อโปรเจกต์';
             document.getElementById('preview-desc').textContent = descInput || 'กรอกข้อมูล หรือคลิกปุ่มด้านข้างเพื่อทดสอบดึงข้อมูลเมทาแท็กคำอธิบายเว็บไซต์';
+
+            // Configure preview hover link clickability
+            const previewHoverLink = document.getElementById('preview-hover-link');
+            if (urlInput) {
+                previewHoverLink.href = urlInput;
+                previewHoverLink.classList.remove('pointer-events-none');
+            } else {
+                previewHoverLink.href = '#';
+                previewHoverLink.classList.add('pointer-events-none');
+            }
 
             const imageContainer = document.getElementById('preview-image-container');
             if (imgInput) {
