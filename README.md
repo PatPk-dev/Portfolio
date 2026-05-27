@@ -1,59 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PEERAPAT.K - Premium Glassmorphic Portfolio & Control Center
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+พอร์ตโฟลิโอสะสมผลงานระดับพรีเมียมของ **Peerapat Kunsubstid** ออกแบบด้วยดีไซน์กระจกสะท้อนแสง (Glassmorphism) สวยงามล้ำสมัย และระบบแผงควบคุมหลังบ้านที่ขับเคลื่อนด้วยฐานข้อมูลคลาวด์ **Supabase (PostgreSQL Cloud)** พร้อมเครื่องมือวิเคราะห์เมทาแท็กและเพิ่มลิงก์ชิ้นงานแบบกลุ่มในเวลาเดียวกัน (Bulk Add URL System) เชื่อมต่อแบบไร้รอยต่อกับ Vercel Serverless Functions
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ คุณลักษณะเด่น (Features)
+- **Premium Glassmorphic Design**: รูปลักษณ์สวยงามระดับพรีเมียมด้วย HSL Tailwind/CSS, การไล่สีที่หรูหรา และเอฟเฟกต์โฮเวอร์ที่ตอบสนองอย่างรวดเร็ว
+- **Database-Driven 100% (Supabase PostgreSQL)**: การสื่อสารแบบเรียลไทม์กับคลาวด์ดาต้าเบส ปราศจาก LocalStorage แคช ทำให้ผลงานของคุณซิงก์กันในทุกบราวเซอร์ทันที
+- **Admin Control Panel**: ระบบหลังบ้านสำหรับจัดการผลงานสะสมอย่างง่ายดาย:
+  - เพิ่ม/แก้ไขชิ้นงานด้วยตนเอง พร้อม Live Card Preview แบบเรียลไทม์
+  - ระบบเปลี่ยนสถานะชิ้นงานอย่างรวดเร็ว (Published เผยแพร่ / Draft แบบร่าง)
+  - ระบบลบผลงานสะสม
+- **Bulk URL Scraper Module**: Paste ลิงก์โปรเจกต์มาหลาย ๆ บรรทัดพร้อมกัน ระบบจะทำการยิง AJAX Concurrency เพื่อดึงข้อมูล Open Graph (ชื่อเว็บ, คำอธิบาย, รูปภาพปก) จากเว็บนั้น ๆ และบันทึกลง Supabase ให้เองทันที!
+- **Serverless Cloud Ready**: รองรับการนำทางผ่าน `vercel.json` ปลอดภัยสูงสุดด้วยตัวแปรสภาพแวดล้อม `.env`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ วิธีการติดตั้งและเริ่มต้นใช้งาน (Getting Started)
 
-## Learning Laravel
+### 1. การจัดเตรียมฐานข้อมูล Supabase
+1. เข้าไปที่ [Supabase.com](https://supabase.com) (สมัครใช้งานฟรี)
+2. สร้างโปรเจกต์ใหม่และตั้งชื่อตามใจชอบ
+3. ไปที่เมนู **SQL Editor** บนบอร์ดควบคุม แล้วเลือก **New Query**
+4. เปิดไฟล์ `supabase.sql` ในโฟลเดอร์โครงการนี้ คัดลอกสคริปต์ทั้งหมดไปวาง และกดปุ่ม **Run** เพื่อสร้างตารางข้อมูลและกำหนดนโยบาย Row Level Security (RLS)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 2. กำหนดค่าตัวแปรสภาพแวดล้อม (Local Environment Setup)
+1. ไปที่เมนู **Project Settings -> API** ใน Supabase คัดลอกค่าความปลอดภัยดังนี้:
+   - **Project URL**
+   - **Anon Public API Key**
+2. เปิดไฟล์ `.env` ที่อยู่ใน root directory ของโปรเจกต์ และแทนที่ค่าจำลองด้วยข้อมูลจริงของคุณ:
+   ```env
+   SUPABASE_URL=คัดลอกค่า URL มาวางที่นี่
+   SUPABASE_ANON_KEY=คัดลอกค่า Anon Key มาวางที่นี่
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. รันโปรเจกต์ในเครื่องของคุณ (Local Development)
+ตรวจสอบให้แน่ใจว่าคุณได้ติดตั้ง Node.js เรียบร้อยแล้ว:
+```bash
+# 1. ติดตั้ง Dependencies ของระบบ
+npm install
 
-## Laravel Sponsors
+# 2. รันระบบเซิร์ฟเวอร์ด้วย Vercel CLI (ในโหมด Dev เพื่อจำลอง Serverless)
+npm start
+```
+ระบบจะเปิดเบราว์เซอร์และแสดงผลที่ลิงก์ `http://localhost:3000` โดยอัตโนมัติ
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🚀 การ Deploy ขึ้น Vercel สำหรับใช้งานออนไลน์ (Production)
+โครงการนี้ได้รับการตั้งค่าพร้อมอัปโหลดขึ้น Vercel ได้ทันทีผ่าน GitHub Integration:
+1. ทำการ Push โค้ดทั้งหมดขึ้น GitHub Repository ของคุณ (ระบบได้ถูก push ขึ้นหลักที่ `https://github.com/PatPk-dev/Portfolio.git` เรียบร้อยแล้ว)
+2. เชื่อมต่อโปรเจกต์กับ **Vercel Dashboard**
+3. **สำคัญมาก**: ไปที่การตั้งค่าของโปรเจกต์ใน Vercel -> เข้าไปที่แท็บ **Settings -> Environment Variables** และเพิ่มตัวแปรสภาพแวดล้อมทั้งสองตัวลงไป:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+4. กดบันทึกและรัน Deploy ตัวเว็บจะออนไลน์แบบ 100% ทันทีโดยไม่ต้องเปิดคอมพิวเตอร์ของคุณทิ้งไว้!
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📄 ใบอนุญาต (License)
+โครงการนี้สร้างสรรค์ขึ้นเป็นทรัพย์สินส่วนบุคคลของ **Peerapat Kunsubstid** ลิขสิทธิ์ถูกต้องทั้งหมด
