@@ -65,6 +65,26 @@ export default async function handler(req, res) {
   try {
     const db = getDbPool();
 
+    // Auto-create table if not exists (Zero-configuration migration)
+    const createTableQuery = `
+      CREATE TABLE IF NOT EXISTS projects (
+          id VARCHAR(50) PRIMARY KEY,
+          title VARCHAR(255) NOT NULL,
+          description TEXT,
+          original_url VARCHAR(1000) NOT NULL,
+          image_url LONGTEXT,
+          status VARCHAR(50) DEFAULT 'published',
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `;
+    
+    try {
+      await db.query(createTableQuery);
+    } catch (tableError) {
+      console.warn('Table auto-creation failed/skipped:', tableError.message);
+    }
+
     // 1. ดึงข้อมูลโครงการทั้งหมด (GET)
     if (req.method === 'GET') {
       try {
