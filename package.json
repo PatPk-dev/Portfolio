@@ -1,12 +1,12 @@
 {
   "name": "portfolio-spa",
   "version": "1.0.0",
-  "description": "Vercel Native SPA Portfolio with MySQL Database and Bulk Add URL function",
+  "description": "Vercel Native SPA Portfolio with Supabase Database and Bulk Add URL function",
   "main": "index.js",
   "scripts": {
     "start": "vercel dev"
   },
   "dependencies": {
-    "mysql2": "^3.9.7"
+    "@supabase/supabase-js": "^2.106.2"
   }
 }

@@ -110,7 +110,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
             <div>
                 <h1 class="font-title text-3xl font-extrabold text-white">แผงควบคุมระบบ (Dashboard)</h1>
-                <p class="text-sm text-gray-400 mt-1">จัดการโปรเจกต์ของ <span class="text-indigo-400 font-semibold">Peerapat Kunsubstid</span> บันทึกตรงเข้าฐานข้อมูล MySQL อย่างรวดเร็ว</p>
+                <p class="text-sm text-gray-400 mt-1">จัดการโปรเจกต์ของ <span class="text-indigo-400 font-semibold">Peerapat Kunsubstid</span> บันทึกตรงเข้าฐานข้อมูล Supabase อย่างรวดเร็ว</p>
             </div>
             
             <!-- Quick Stats -->
@@ -152,10 +152,10 @@
                     <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                 </div>
                 <div class="flex-grow">
-                    <h3 class="font-title text-base font-bold text-white mb-1">ไม่สามารถเชื่อมต่อกับฐานข้อมูล MySQL ได้ในขณะนี้</h3>
+                    <h3 class="font-title text-base font-bold text-white mb-1">ไม่สามารถเชื่อมต่อกับฐานข้อมูล Supabase ได้ในขณะนี้</h3>
                     <p id="db-warning-message" class="text-xs text-red-300 font-mono overflow-x-auto select-all max-h-20 bg-black/25 p-2.5 rounded-lg border border-white/5 mb-2"></p>
                     <div class="text-[11px] text-gray-400 leading-relaxed">
-                        <span class="text-indigo-400 font-semibold">🛠️ คำแนะนำ:</span> ตรวจสอบว่าโปรแกรม <span class="text-white font-semibold">XAMPP Control Panel (MySQL)</span> ของคุณเปิดปุ่ม <span class="text-emerald-400 font-semibold">Start</span> เรียบร้อยแล้ว หรือตั้งค่ารหัสผ่าน Host และ DB_NAME ในไฟล์ <span class="text-white font-semibold font-mono">.env</span> ในระบบให้ถูกต้อง (อย่าลืมรันคำสั่งใน <span class="text-white font-semibold font-mono">database.sql</span> ใน phpMyAdmin เพื่อสร้างฐานข้อมูลด้วยครับ)
+                        <span class="text-indigo-400 font-semibold">🛠️ คำแนะนำ:</span> ตรวจสอบว่าคุณตั้งค่าคีย์ <span class="text-white font-semibold font-mono">SUPABASE_URL</span> และ <span class="text-white font-semibold font-mono">SUPABASE_ANON_KEY</span> ในไฟล์ <span class="text-white font-semibold font-mono">.env</span> (หรือบน Vercel Dashboard หากอยู่ในฝั่ง Server) อย่างถูกต้องเรียบร้อยแล้วหรือยัง และสร้างตารางใน <span class="text-white font-semibold font-mono">SQL Editor</span> บนเว็บ Supabase แล้ว
                     </div>
                 </div>
             </div>
@@ -355,7 +355,7 @@
                                 type="submit" 
                                 class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl text-sm transition duration-200 flex items-center gap-2 hover:shadow-lg hover:shadow-indigo-600/10"
                             >
-                                <span id="submit-btn-text">บันทึกลงฐานข้อมูล MySQL</span>
+                                <span id="submit-btn-text">บันทึกลงฐานข้อมูล Supabase</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                             </button>
                         </div>
@@ -425,7 +425,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
                     <div>
                         <h2 class="font-title text-xl font-bold text-white">รายการผลงานทั้งหมด</h2>
-                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูล MySQL ของคุณ</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูล Supabase ของคุณ</p>
                     </div>
                     
                     <!-- Search Input -->
@@ -474,7 +474,7 @@
     <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav w-full">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                &copy; <span id="year"></span> Peerapat Kunsubstid. Powered by Node.js & MySQL.
+                &copy; <span id="year"></span> Peerapat Kunsubstid. Powered by Node.js & Supabase.
             </div>
             <div class="flex items-center gap-4">
                 <a href="index.html" class="hover:text-indigo-400 font-medium transition">ไปหน้าพอร์ตโฟลิโอ</a>
@@ -631,10 +631,10 @@
                     dbWarning.classList.add('hidden');
                 } else {
                     projects = [];
-                    if (result.type === 'db_connection_error') {
+                    if (result.type === 'supabase_config_error' || result.type === 'db_connection_error') {
                         dbWarning.classList.remove('hidden');
                         dbWarningMsg.textContent = result.message;
-                        showToast('ล้มเหลวในการเชื่อมต่อ MySQL', 'error');
+                        showToast('ล้มเหลวในการเชื่อมต่อ Supabase', 'error');
                     } else {
                         showToast(result.message || 'ดึงข้อมูลไม่สำเร็จ', 'error');
                     }
@@ -643,7 +643,7 @@
                 console.error('Failed to fetch projects API:', e);
                 projects = [];
                 dbWarning.classList.remove('hidden');
-                dbWarningMsg.textContent = 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบการตั้งค่าฐานข้อมูล หรือเซิร์ฟเวอร์ MySQL';
+                dbWarningMsg.textContent = 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบการตั้งค่าตัวแปรสภาพแวดล้อมฐานข้อมูล Supabase ในไฟล์ .env ของคุณ';
                 showToast('ล้มเหลวในการเชื่อมต่อ API หลังบ้าน', 'error');
             }
             updateStats();
@@ -789,7 +789,7 @@
             }
         }
 
-        // Save (Add or Update) project in MySQL via API
+        // Save (Add or Update) project in Supabase via API
         async function savePortfolioProject(event) {
             event.preventDefault();
 
@@ -815,7 +815,7 @@
                 status: pStatus
             };
 
-            showToast('กำลังทำการบันทึกข้อมูลเข้าสู่ MySQL...', 'info');
+            showToast('กำลังทำการบันทึกข้อมูลเข้าสู่ Supabase Cloud...', 'info');
 
             try {
                 const response = await fetch('/api/projects', {
@@ -834,7 +834,7 @@
                 }
             } catch (err) {
                 console.error('Error saving project:', err);
-                showToast('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบการเชื่อมต่อของคุณ', 'error');
+                showToast('ไม่สามารถเชื่อมต่อ Supabase ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตหรือข้อมูลตั้งค่าของคุณ', 'error');
             }
         }
 
@@ -853,7 +853,7 @@
 
             // Form Title, button and helper
             document.getElementById('form-action-title').textContent = 'แก้ไขโปรเจกต์';
-            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขใน MySQL';
+            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขใน Supabase';
             document.getElementById('cancel-edit-btn').classList.remove('hidden');
 
             updateLivePreview();
@@ -887,7 +887,7 @@
             const nextStatus = project.status === 'published' ? 'draft' : 'published';
             const payload = { ...project, status: nextStatus };
 
-            showToast('กำลังแก้ไขสถานะชิ้นงานใน MySQL...', 'info');
+            showToast('กำลังแก้ไขสถานะชิ้นงานใน Supabase...', 'info');
 
             try {
                 const response = await fetch('/api/projects', {
@@ -914,7 +914,7 @@
             const project = projects.find(p => p.id === id);
             if (!project) return;
 
-            const confirmText = `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก MySQL?`;
+            const confirmText = `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก Supabase?`;
 
             const confirmDel = confirm(confirmText);
             if (confirmDel) {
@@ -1105,7 +1105,7 @@
                             status: 'published'
                         };
 
-                        // 2. บันทึกลงตารางฐานข้อมูล MySQL โดยตรง
+                        // 2. บันทึกลงตารางฐานข้อมูล Supabase Cloud โดยตรง
                         const saveRes = await fetch('/api/projects', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },

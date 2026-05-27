@@ -1,8 +1,8 @@
-import mysql from 'mysql2/promise';
+import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 
-// โหลดตัวแปรสภาพแวดล้อมจากไฟล์ .env แบบแมนนวลกรณีรันแบบธรรมดา
+// โหลดตัวแปรสภาพแวดล้อมจากไฟล์ .env แบบแมนนวลกรณีรันแบบธรรมดา (Local Development)
 if (process.env.NODE_ENV !== 'production') {
   try {
     const envPath = path.resolve(process.cwd(), '.env');
@@ -27,24 +27,15 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-// สร้าง Connection Pool สำหรับเชื่อมต่อ MySQL
-let pool;
+// ฟังก์ชันสร้าง Supabase Client
+function getSupabaseClient() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
 
-function getDbPool() {
-  if (!pool) {
-    pool = mysql.createPool({
-      host: process.env.DB_HOST || '127.0.0.1',
-      port: parseInt(process.env.DB_PORT || '3306'),
-      user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_NAME || 'portfolio',
-      connectionLimit: 10,
-      waitForConnections: true,
-      queueLimit: 0,
-      connectTimeout: 5000 // 5 seconds connection timeout
-    });
+  if (!url || !key || url.startsWith('YOUR_SUPABASE_') || key.startsWith('YOUR_SUPABASE_')) {
+    return null;
   }
-  return pool;
+  return createClient(url, key);
 }
 
 export default async function handler(req, res) {
@@ -62,42 +53,26 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return res.status(500).json({
+      status: 'error',
+      type: 'supabase_config_error',
+      message: 'กรุณากรอกและตั้งค่าตัวแปรสภาพแวดล้อม SUPABASE_URL และ SUPABASE_ANON_KEY ในไฟล์ .env หรือระบบคลาวด์ Vercel Dashboard ให้เรียบร้อยเพื่อเริ่มต้นใช้งานระบบผลงานสะสม'
+    });
+  }
+
   try {
-    const db = getDbPool();
-
-    // Auto-create table if not exists (Zero-configuration migration)
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS projects (
-          id VARCHAR(50) PRIMARY KEY,
-          title VARCHAR(255) NOT NULL,
-          description TEXT,
-          original_url VARCHAR(1000) NOT NULL,
-          image_url LONGTEXT,
-          status VARCHAR(50) DEFAULT 'published',
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `;
-    
-    try {
-      await db.query(createTableQuery);
-    } catch (tableError) {
-      console.warn('Table auto-creation failed/skipped:', tableError.message);
-    }
-
     // 1. ดึงข้อมูลโครงการทั้งหมด (GET)
     if (req.method === 'GET') {
-      try {
-        const [rows] = await db.query('SELECT * FROM projects ORDER BY created_at DESC');
-        return res.status(200).json({ status: 'success', data: rows });
-      } catch (dbError) {
-        console.error('MySQL query error:', dbError);
-        return res.status(500).json({
-          status: 'error',
-          type: 'db_connection_error',
-          message: `ไม่สามารถเชื่อมต่อฐานข้อมูล MySQL ได้: ${dbError.message}. กรุณาเปิดโปรแกรม XAMPP และกดปุ่ม Start บนหน้า MySQL หรือนำเข้าไฟล์ database.sql เพื่อสร้างฐานข้อมูลให้เรียบร้อย`
-        });
-      }
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return res.status(200).json({ status: 'success', data: data || [] });
     }
 
     // 2. เพิ่มโครงการใหม่ (POST)
@@ -108,19 +83,22 @@ export default async function handler(req, res) {
         return res.status(400).json({ status: 'error', message: 'กรุณากรอกข้อมูลฟิลด์ที่จำเป็น (id, title, original_url) ให้ครบถ้วน' });
       }
 
-      try {
-        await db.query(
-          'INSERT INTO projects (id, title, description, original_url, image_url, status) VALUES (?, ?, ?, ?, ?, ?)',
-          [id, title, description || '', original_url, image_url || '', status || 'published']
-        );
-        return res.status(201).json({ status: 'success', message: 'บันทึกโปรเจกต์ลงฐานข้อมูลเรียบร้อยแล้ว' });
-      } catch (dbError) {
-        console.error('MySQL insert error:', dbError);
-        return res.status(500).json({
-          status: 'error',
-          message: `เกิดข้อผิดพลาดในการบันทึกข้อมูล: ${dbError.message}`
-        });
-      }
+      const { data, error } = await supabase
+        .from('projects')
+        .insert([
+          { 
+            id, 
+            title, 
+            description: description || '', 
+            original_url, 
+            image_url: image_url || '', 
+            status: status || 'published' 
+          }
+        ])
+        .select();
+
+      if (error) throw error;
+      return res.status(201).json({ status: 'success', message: 'บันทึกโปรเจกต์ลง Supabase เรียบร้อยแล้ว', data });
     }
 
     // 3. แก้ไขข้อมูลโครงการ (PUT)
@@ -131,24 +109,25 @@ export default async function handler(req, res) {
         return res.status(400).json({ status: 'error', message: 'กรุณาระบุข้อมูลฟิลด์ที่จำเป็นสำหรับการอัปเดต' });
       }
 
-      try {
-        const [result] = await db.query(
-          'UPDATE projects SET title = ?, description = ?, original_url = ?, image_url = ?, status = ? WHERE id = ?',
-          [title, description || '', original_url, image_url || '', status || 'published', id]
-        );
+      const { data, error } = await supabase
+        .from('projects')
+        .update({ 
+          title, 
+          description: description || '', 
+          original_url, 
+          image_url: image_url || '', 
+          status: status || 'published' 
+        })
+        .eq('id', id)
+        .select();
 
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ status: 'error', message: 'ไม่พบโปรเจกต์ที่ต้องการแก้ไขในฐานข้อมูล' });
-        }
+      if (error) throw error;
 
-        return res.status(200).json({ status: 'success', message: 'อัปเดตข้อมูลโปรเจกต์ในฐานข้อมูลเรียบร้อยแล้ว' });
-      } catch (dbError) {
-        console.error('MySQL update error:', dbError);
-        return res.status(500).json({
-          status: 'error',
-          message: `เกิดข้อผิดพลาดในการแก้ไขข้อมูล: ${dbError.message}`
-        });
+      if (!data || data.length === 0) {
+        return res.status(404).json({ status: 'error', message: 'ไม่พบโปรเจกต์ที่ต้องการแก้ไขใน Supabase' });
       }
+
+      return res.status(200).json({ status: 'success', message: 'อัปเดตข้อมูลโปรเจกต์ใน Supabase เรียบร้อยแล้ว', data });
     }
 
     // 4. ลบโครงการออกจากระบบ (DELETE)
@@ -159,28 +138,26 @@ export default async function handler(req, res) {
         return res.status(400).json({ status: 'error', message: 'กรุณาระบุ id ของโปรเจกต์ที่ต้องการลบ' });
       }
 
-      try {
-        const [result] = await db.query('DELETE FROM projects WHERE id = ?', [id]);
+      const { data, error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', id)
+        .select();
 
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ status: 'error', message: 'ไม่พบโปรเจกต์ที่ต้องการลบในฐานข้อมูล' });
-        }
+      if (error) throw error;
 
-        return res.status(200).json({ status: 'success', message: 'ลบโปรเจกต์ออกจากฐานข้อมูลเรียบร้อยแล้ว' });
-      } catch (dbError) {
-        console.error('MySQL delete error:', dbError);
-        return res.status(500).json({
-          status: 'error',
-          message: `เกิดข้อผิดพลาดในการลบข้อมูล: ${dbError.message}`
-        });
+      if (!data || data.length === 0) {
+        return res.status(404).json({ status: 'error', message: 'ไม่พบโปรเจกต์ที่ต้องการลบใน Supabase' });
       }
+
+      return res.status(200).json({ status: 'success', message: 'ลบโปรเจกต์ออกจาก Supabase เรียบร้อยแล้ว' });
     }
 
     // วิธีอื่นที่ยังไม่รองรับ
     return res.status(405).json({ status: 'error', message: 'Method not allowed' });
 
   } catch (err) {
-    console.error('Server error:', err);
-    return res.status(500).json({ status: 'error', message: `เกิดข้อผิดพลาดภายในระบบเซิร์ฟเวอร์: ${err.message}` });
+    console.error('Supabase API error:', err);
+    return res.status(500).json({ status: 'error', message: `เกิดข้อผิดพลาดในการเชื่อมต่อ Supabase: ${err.message}` });
   }
 }
