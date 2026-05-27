@@ -110,7 +110,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
             <div>
                 <h1 class="font-title text-3xl font-extrabold text-white">แผงควบคุมระบบ (Dashboard)</h1>
-                <p class="text-sm text-gray-400 mt-1">จัดการโปรเจกต์ของ <span class="text-indigo-400 font-semibold">Peerapat Kunsubstid</span> บันทึกตรงเข้าฐานข้อมูล MySQL อย่างรวดเร็ว</p>
+                <p class="text-sm text-gray-400 mt-1">จัดการโปรเจกต์ของ <span class="text-indigo-400 font-semibold">Peerapat Kunsubstid</span> จัดเก็บข้อมูลลงเบราว์เซอร์ (LocalStorage) อย่างรวดเร็ว</p>
             </div>
             
             <!-- Quick Stats -->
@@ -145,21 +145,7 @@
             </div>
         </div>
 
-        <!-- Database Connection Warning Banner -->
-        <div id="db-warning-banner" class="hidden glass-card rounded-3xl p-6 border border-red-500/20 bg-red-950/5 mb-8 relative overflow-hidden">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left">
-                <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 shrink-0">
-                    <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                </div>
-                <div class="flex-grow">
-                    <h3 class="font-title text-base font-bold text-white mb-1">ไม่สามารถเชื่อมต่อกับฐานข้อมูล MySQL ได้ในขณะนี้</h3>
-                    <p id="db-warning-message" class="text-xs text-red-300 font-mono overflow-x-auto select-all max-h-20 bg-black/25 p-2.5 rounded-lg border border-white/5 mb-2"></p>
-                    <div class="text-[11px] text-gray-400 leading-relaxed">
-                        <span class="text-indigo-400 font-semibold">🛠️ คำแนะนำ:</span> ตรวจสอบว่าโปรแกรม <span class="text-white font-semibold">XAMPP Control Panel (MySQL)</span> ของคุณเปิดปุ่ม <span class="text-emerald-400 font-semibold">Start</span> เรียบร้อยแล้ว หรือตั้งค่ารหัสผ่าน Host และ DB_NAME ในไฟล์ <span class="text-white font-semibold font-mono">.env</span> ในระบบให้ถูกต้อง (อย่าลืมรันคำสั่งใน <span class="text-white font-semibold font-mono">database.sql</span> ใน phpMyAdmin เพื่อสร้างฐานข้อมูลด้วยครับ)
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Database Warning Banner Removed (LocalStorage Mode Active) -->
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
@@ -355,7 +341,7 @@
                                 type="submit" 
                                 class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl text-sm transition duration-200 flex items-center gap-2 hover:shadow-lg hover:shadow-indigo-600/10"
                             >
-                                <span id="submit-btn-text">บันทึกลงฐานข้อมูล MySQL</span>
+                                <span id="submit-btn-text">บันทึกลงในเบราว์เซอร์</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                             </button>
                         </div>
@@ -425,7 +411,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
                     <div>
                         <h2 class="font-title text-xl font-bold text-white">รายการผลงานทั้งหมด</h2>
-                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูล MySQL ของคุณ</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในเบราว์เซอร์ของคุณ</p>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
@@ -485,7 +471,7 @@
     <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav w-full">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                &copy; <span id="year"></span> Peerapat Kunsubstid. Powered by Node.js & MySQL.
+                &copy; <span id="year"></span> Peerapat Kunsubstid. Powered by LocalStorage.
             </div>
             <div class="flex items-center gap-4">
                 <a href="index.html" class="hover:text-indigo-400 font-medium transition">ไปหน้าพอร์ตโฟลิโอ</a>
@@ -628,34 +614,13 @@
             }, 3500);
         }
 
-        // Load projects from Database (API)
-        async function loadProjects() {
-            const dbWarning = document.getElementById('db-warning-banner');
-            const dbWarningMsg = document.getElementById('db-warning-message');
-
+        // Load projects from LocalStorage
+        function loadProjects() {
             try {
-                const response = await fetch('/api/projects');
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    projects = result.data || [];
-                    dbWarning.classList.add('hidden');
-                } else {
-                    projects = [];
-                    if (result.type === 'db_connection_error') {
-                        dbWarning.classList.remove('hidden');
-                        dbWarningMsg.textContent = result.message;
-                        showToast('ล้มเหลวในการเชื่อมต่อ MySQL', 'error');
-                    } else {
-                        showToast(result.message || 'ดึงข้อมูลไม่สำเร็จ', 'error');
-                    }
-                }
+                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
             } catch (e) {
-                console.error('Failed to fetch projects API:', e);
+                console.error('Failed to load local projects:', e);
                 projects = [];
-                dbWarning.classList.remove('hidden');
-                dbWarningMsg.textContent = 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบการเปิด XAMPP MySQL หรือตัวแปรสภาพแวดล้อมฐานข้อมูล';
-                showToast('ล้มเหลวในการเชื่อมต่อ API หลังบ้าน', 'error');
             }
             updateStats();
             renderProjectsList();
@@ -800,8 +765,8 @@
             }
         }
 
-        // Save (Add or Update) project in MySQL via API
-        async function savePortfolioProject(event) {
+        // Save (Add or Update) project in LocalStorage
+        function savePortfolioProject(event) {
             event.preventDefault();
 
             const pId = document.getElementById('project-id').value;
@@ -823,29 +788,28 @@
                 description: pDesc,
                 original_url: pUrl,
                 image_url: pImage,
-                status: pStatus
+                status: pStatus,
+                updated_at: new Date().toISOString()
             };
 
-            showToast('กำลังทำการบันทึกข้อมูลเข้าสู่ MySQL...', 'info');
+            if (isEditMode) {
+                const idx = projects.findIndex(p => p.id === editingProjectId);
+                if (idx !== -1) {
+                    projects[idx] = payload;
+                }
+            } else {
+                payload.created_at = new Date().toISOString();
+                projects.unshift(payload);
+            }
 
             try {
-                const response = await fetch('/api/projects', {
-                    method: isEditMode ? 'PUT' : 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-
-                if (response.ok && result.status === 'success') {
-                    showToast(result.message || 'บันทึกข้อมูลเรียบร้อยแล้ว!', 'success');
-                    cancelEditing();
-                    loadProjects();
-                } else {
-                    showToast(result.message || 'บันทึกไม่สำเร็จ', 'error');
-                }
+                localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                showToast(isEditMode ? 'แก้ไขผลงานสำเร็จเรียบร้อย!' : 'บันทึกผลงานลงเบราว์เซอร์เรียบร้อย!', 'success');
+                cancelEditing();
+                loadProjects();
             } catch (err) {
-                console.error('Error saving project:', err);
-                showToast('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบการเชื่อมต่อของคุณ', 'error');
+                console.error('Error saving local project:', err);
+                showToast('ไม่สามารถบันทึกลงเบราว์เซอร์ได้ หน่วยความจำอาจจะเต็ม', 'error');
             }
         }
 
@@ -864,7 +828,7 @@
 
             // Form Title, button and helper
             document.getElementById('form-action-title').textContent = 'แก้ไขโปรเจกต์';
-            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขใน MySQL';
+            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขลงเบราว์เซอร์';
             document.getElementById('cancel-edit-btn').classList.remove('hidden');
 
             updateLivePreview();
@@ -891,66 +855,42 @@
         }
 
         // Quick toggle Status (Draft <-> Published) directly in the table
-        async function toggleProjectStatus(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
+        function toggleProjectStatus(id) {
+            const idx = projects.findIndex(p => p.id === id);
+            if (idx === -1) return;
 
-            const nextStatus = project.status === 'published' ? 'draft' : 'published';
-            const payload = { ...project, status: nextStatus };
-
-            showToast('กำลังแก้ไขสถานะชิ้นงานใน MySQL...', 'info');
+            const nextStatus = projects[idx].status === 'published' ? 'draft' : 'published';
+            projects[idx].status = nextStatus;
+            projects[idx].updated_at = new Date().toISOString();
 
             try {
-                const response = await fetch('/api/projects', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-
-                if (response.ok && result.status === 'success') {
-                    showToast(`เปลี่ยนสถานะเป็น ${nextStatus === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'} สำเร็จ`, 'success');
-                    loadProjects();
-                } else {
-                    showToast(result.message || 'เปลี่ยนสถานะไม่สำเร็จ', 'error');
-                }
-            } catch (err) {
-                console.error('Error toggling status:', err);
-                showToast('ไม่สามารถเชื่อมต่อฐานข้อมูลได้', 'error');
+                localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                showToast(`เปลี่ยนสถานะเป็น ${nextStatus === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'} สำเร็จ`, 'success');
+                loadProjects();
+            } catch (e) {
+                showToast('ล้มเหลวในการบันทึกสถานะ', 'error');
             }
         }
 
-        // Delete a project (with API request)
-        async function deleteProject(id) {
+        // Delete a project
+        function deleteProject(id) {
             const project = projects.find(p => p.id === id);
             if (!project) return;
 
-            const confirmText = `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก MySQL?`;
+            const confirmText = `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจากเบราว์เซอร์?`;
 
             const confirmDel = confirm(confirmText);
             if (confirmDel) {
-                showToast('กำลังดำเนินการลบข้อมูล...', 'info');
-                
+                projects = projects.filter(p => p.id !== id);
                 try {
-                    const response = await fetch('/api/projects', {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id: id })
-                    });
-                    const result = await response.json();
-
-                    if (response.ok && result.status === 'success') {
-                        showToast('ลบโปรเจกต์สำเร็จ!', 'success');
-                        if (editingProjectId === id) {
-                            cancelEditing();
-                        }
-                        loadProjects();
-                    } else {
-                        showToast(result.message || 'ลบข้อมูลไม่สำเร็จ', 'error');
+                    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                    showToast('ลบผลงานเรียบร้อยแล้ว!', 'success');
+                    if (editingProjectId === id) {
+                        cancelEditing();
                     }
-                } catch (err) {
-                    console.error('Error deleting project:', err);
-                    showToast('ไม่สามารถเชื่อมต่อฐานข้อมูลได้', 'error');
+                    loadProjects();
+                } catch (e) {
+                    showToast('ลบข้อมูลไม่สำเร็จ', 'error');
                 }
             }
         }
@@ -1116,23 +1056,14 @@
                             status: 'published'
                         };
 
-                        // 2. บันทึกลงตารางฐานข้อมูล MySQL โดยตรง
-                        const saveRes = await fetch('/api/projects', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(projectPayload)
-                        });
-                        const saveResult = await saveRes.json();
-
-                        if (saveRes.ok && saveResult.status === 'success') {
-                            successCount++;
-                            itemEl.innerHTML = `
-                                <span class="truncate max-w-[70%] text-white font-medium" title="${escapeHtml(metadata.title)}">${escapeHtml(metadata.title)}</span>
-                                <span class="text-emerald-400 font-semibold">✓ สำเร็จ</span>
-                            `;
-                        } else {
-                            throw new Error(saveResult.message || 'บันทึกลงฐานข้อมูลล้มเหลว');
-                        }
+                        // 2. บันทึกลง LocalStorage โดยตรง
+                        projects.unshift(projectPayload);
+                        localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                        successCount++;
+                        itemEl.innerHTML = `
+                            <span class="truncate max-w-[70%] text-white font-medium" title="${escapeHtml(metadata.title)}">${escapeHtml(metadata.title)}</span>
+                            <span class="text-emerald-400 font-semibold">✓ สำเร็จ</span>
+                        `;
                     } else {
                         throw new Error(fetchResult.message || 'ดึงเมทาแท็กไม่สำเร็จ');
                     }
@@ -1243,7 +1174,7 @@
             <!-- Modal Header -->
             <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-indigo-950/20">
                 <h3 class="font-title text-sm font-bold text-white flex items-center gap-2">
-                    <span class="text-indigo-400 text-base">📋</span> รายชื่อเว็บไซต์ทั้งหมดในฐานข้อมูล
+                    <span class="text-indigo-400 text-base">📋</span> รายชื่อเว็บไซต์ทั้งหมดในระบบ
                 </h3>
                 <button onclick="closeWebsitesModal()" class="text-gray-400 hover:text-white transition text-lg">&times;</button>
             </div>
