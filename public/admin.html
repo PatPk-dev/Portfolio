@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบหลังบ้าน - Manage Creative Portfolio</title>
+    <title>ระบบหลังบ้าน - Manage Portfolio | Peerapat Kunsubstid</title>
     
     <!-- Meta Tags สำหรับ SEO -->
-    <meta name="description" content="แผงควบคุมระบบสำหรับจัดการโปรเจกต์และลิงก์ของเว็บไซต์ในพอร์ตโฟลิโอ">
-    <meta name="author" content="Creative Developer">
+    <meta name="description" content="แผงควบคุมระบบสำหรับจัดการโปรเจกต์และลิงก์ของเว็บไซต์ในพอร์ตโฟลิโอของ Peerapat Kunsubstid">
+    <meta name="author" content="Peerapat Kunsubstid">
     
     <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,8 +90,8 @@
     <nav class="sticky top-0 z-40 glass-nav">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <a href="index.html" class="font-title text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
-                    PORTFOLIO
+                <a href="index.html" class="font-title text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
+                    PEERAPAT.K
                 </a>
                 <span class="text-xs font-semibold px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ADMIN SYSTEM</span>
             </div>
@@ -110,7 +110,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
             <div>
                 <h1 class="font-title text-3xl font-extrabold text-white">แผงควบคุมระบบ (Dashboard)</h1>
-                <p class="text-sm text-gray-400 mt-1">เพิ่ม ลบ แก้ไข โปรเจกต์ในพอร์ตโฟลิโอของคุณได้ในที่เดียวด้วยพลังดึงข้อมูล Open Graph</p>
+                <p class="text-sm text-gray-400 mt-1">จัดการโปรเจกต์ของ <span class="text-indigo-400 font-semibold">Peerapat Kunsubstid</span> บันทึกตรงเข้าฐานข้อมูล MySQL อย่างรวดเร็ว</p>
             </div>
             
             <!-- Quick Stats -->
@@ -145,45 +145,111 @@
             </div>
         </div>
 
+        <!-- Database Connection Warning Banner -->
+        <div id="db-warning-banner" class="hidden glass-card rounded-3xl p-6 border border-red-500/20 bg-red-950/5 mb-8 relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left">
+                <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 shrink-0">
+                    <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="font-title text-base font-bold text-white mb-1">ไม่สามารถเชื่อมต่อกับฐานข้อมูล MySQL ได้ในขณะนี้</h3>
+                    <p id="db-warning-message" class="text-xs text-red-300 font-mono overflow-x-auto select-all max-h-20 bg-black/25 p-2.5 rounded-lg border border-white/5 mb-2"></p>
+                    <div class="text-[11px] text-gray-400 leading-relaxed">
+                        <span class="text-indigo-400 font-semibold">🛠️ คำแนะนำ:</span> ตรวจสอบว่าโปรแกรม <span class="text-white font-semibold">XAMPP Control Panel (MySQL)</span> ของคุณเปิดปุ่ม <span class="text-emerald-400 font-semibold">Start</span> เรียบร้อยแล้ว หรือตั้งค่ารหัสผ่าน Host และ DB_NAME ในไฟล์ <span class="text-white font-semibold font-mono">.env</span> ในระบบให้ถูกต้อง (อย่าลืมรันคำสั่งใน <span class="text-white font-semibold font-mono">database.sql</span> ใน phpMyAdmin เพื่อสร้างฐานข้อมูลด้วยครับ)
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- Left Side: URL Fetching & Custom Editing Form -->
             <section class="lg:col-span-7 flex flex-col gap-6">
                 
-                <!-- URL Scraping Box -->
+                <!-- URL Scraping / Bulk Scraping Box -->
                 <div class="glass-card rounded-3xl p-6 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-28 h-28 rounded-full bg-indigo-500/5 blur-2xl pointer-events-none"></div>
                     
-                    <h2 class="font-title text-xl font-bold text-white mb-4 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                        ดึงข้อมูลและเพิ่มจาก URL ใหม่
-                    </h2>
-                    
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <div class="relative flex-grow">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-500">
-                                🔗
-                            </span>
-                            <input 
-                                type="url" 
-                                id="scraping-url" 
-                                placeholder="ใส่ URL เช่น https://example.com" 
-                                class="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm transition text-white placeholder-gray-500"
-                            >
-                        </div>
-                        <button 
-                            type="button" 
-                            id="fetch-btn" 
-                            onclick="fetchWebsiteMetadata()"
-                            class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm text-white transition duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95 shrink-0"
-                        >
-                            <span id="btn-text">ดึงข้อมูลเว็บไซต์</span>
-                            <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <!-- Tabs -->
+                    <div class="flex border-b border-white/5 mb-6 gap-6">
+                        <button onclick="switchTab('single')" id="tab-single-btn" class="pb-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold text-sm transition flex items-center gap-1.5 focus:outline-none">
+                            🔗 เพิ่มลิงก์เดี่ยว
+                        </button>
+                        <button onclick="switchTab('bulk')" id="tab-bulk-btn" class="pb-2.5 border-b-2 border-transparent text-gray-400 hover:text-white font-medium text-sm transition flex items-center gap-1.5 focus:outline-none">
+                            📦 เพิ่มทีละหลายลิงก์ (Bulk Add)
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2.5">
-                        ระบบจะทำการส่ง Request ไปยังหน้าเป้าหมาย เพื่ออ่านข้อมูล Open Graph (`og:image`, `og:title`, `og:description`) มาประมวลผลเป็นชิ้นงานให้โดยอัตโนมัติ
-                    </p>
+
+                    <!-- Single URL Form -->
+                    <div id="tab-single-content" class="space-y-4">
+                        <h2 class="font-title text-base font-bold text-white mb-2 flex items-center gap-2">
+                            ดึงข้อมูลและเพิ่มจาก URL ใหม่
+                        </h2>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="relative flex-grow">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-500">
+                                    🔗
+                                </span>
+                                <input 
+                                    type="url" 
+                                    id="scraping-url" 
+                                    placeholder="ใส่ URL เช่น https://example.com" 
+                                    class="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm transition text-white placeholder-gray-500"
+                                >
+                            </div>
+                            <button 
+                                type="button" 
+                                id="fetch-btn" 
+                                onclick="fetchWebsiteMetadata()"
+                                class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm text-white transition duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-600/20 active:scale-95 shrink-0"
+                            >
+                                <span id="btn-text">ดึงข้อมูลเว็บไซต์</span>
+                                <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500">
+                            ระบบจะดึงข้อมูล Open Graph (`og:image`, `og:title`, `og:description`) มาป้อนในช่องฟอร์มให้โดยอัตโนมัติเพื่อให้ท่านสามารถตรวจสอบความถูกต้องก่อนกดบันทึกจริง
+                        </p>
+                    </div>
+
+                    <!-- Bulk URL Form -->
+                    <div id="tab-bulk-content" class="hidden space-y-4">
+                        <h2 class="font-title text-base font-bold text-white mb-2 flex items-center gap-2">
+                            วางลิงก์สะสมบรรทัดละ 1 ลิงก์ (Bulk Add)
+                        </h2>
+                        <textarea 
+                            id="bulk-urls" 
+                            rows="5" 
+                            placeholder="วางลิงก์ที่ต้องการเพิ่มบรรทัดละลิงก์ เช่น:&#10;https://google.com&#10;https://github.com" 
+                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white resize-none font-mono placeholder-gray-600"
+                        ></textarea>
+                        <div class="flex justify-end">
+                            <button 
+                                type="button" 
+                                id="bulk-submit-btn" 
+                                onclick="runBulkFetchAndAdd()"
+                                class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm text-white transition flex items-center justify-center gap-2 hover:shadow-lg active:scale-95"
+                            >
+                                ดึงข้อมูลและเพิ่มทั้งหมด (Bulk Add)
+                            </button>
+                        </div>
+
+                        <!-- Progress Box -->
+                        <div id="bulk-progress-container" class="hidden glass-card rounded-2xl p-4 border border-indigo-500/20 bg-indigo-950/20">
+                            <div class="flex items-center justify-between text-xs font-semibold text-gray-300 mb-2">
+                                <span id="bulk-progress-status">กำลังเริ่มต้นประมวลผล...</span>
+                                <span id="bulk-progress-percent" class="text-indigo-400">0%</span>
+                            </div>
+                            <!-- Progress Bar Base -->
+                            <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-3">
+                                <div id="bulk-progress-bar" class="bg-indigo-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <!-- Process List -->
+                            <div id="bulk-progress-list" class="max-h-36 overflow-y-auto space-y-1.5 pr-1 font-mono text-[10px]">
+                                <!-- Dynamically loaded progress items -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Main Form (New/Edit) -->
@@ -289,7 +355,7 @@
                                 type="submit" 
                                 class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl text-sm transition duration-200 flex items-center gap-2 hover:shadow-lg hover:shadow-indigo-600/10"
                             >
-                                <span id="submit-btn-text">บันทึกลงใน Portfolio</span>
+                                <span id="submit-btn-text">บันทึกลงฐานข้อมูล MySQL</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                             </button>
                         </div>
@@ -359,7 +425,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6 mb-6">
                     <div>
                         <h2 class="font-title text-xl font-bold text-white">รายการผลงานทั้งหมด</h2>
-                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูลเบราว์เซอร์ของคุณ</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงโปรเจกต์ทั้งหมดที่มีในฐานข้อมูล MySQL ของคุณ</p>
                     </div>
                     
                     <!-- Search Input -->
@@ -408,7 +474,7 @@
     <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav w-full">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                &copy; <span id="year"></span> Creative Portfolio System. Powered by Node.js Serverless.
+                &copy; <span id="year"></span> Peerapat Kunsubstid. Powered by Node.js & MySQL.
             </div>
             <div class="flex items-center gap-4">
                 <a href="index.html" class="hover:text-indigo-400 font-medium transition">ไปหน้าพอร์ตโฟลิโอ</a>
@@ -484,12 +550,34 @@
         // System state
         let projects = [];
         let editingProjectId = null;
+        let activeTab = 'single';
 
         // On Page Load
         document.addEventListener('DOMContentLoaded', function() {
             loadProjects();
             updateLivePreview();
         });
+
+        // Tab Switcher
+        function switchTab(tab) {
+            activeTab = tab;
+            const singleBtn = document.getElementById('tab-single-btn');
+            const bulkBtn = document.getElementById('tab-bulk-btn');
+            const singleContent = document.getElementById('tab-single-content');
+            const bulkContent = document.getElementById('tab-bulk-content');
+
+            if (tab === 'single') {
+                singleBtn.className = "pb-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold text-sm transition flex items-center gap-1.5 focus:outline-none";
+                bulkBtn.className = "pb-2.5 border-b-2 border-transparent text-gray-400 hover:text-white font-medium text-sm transition flex items-center gap-1.5 focus:outline-none";
+                singleContent.classList.remove('hidden');
+                bulkContent.classList.add('hidden');
+            } else {
+                singleBtn.className = "pb-2.5 border-b-2 border-transparent text-gray-400 hover:text-white font-medium text-sm transition flex items-center gap-1.5 focus:outline-none";
+                bulkBtn.className = "pb-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold text-sm transition flex items-center gap-1.5 focus:outline-none";
+                singleContent.classList.add('hidden');
+                bulkContent.classList.remove('hidden');
+            }
+        }
 
         // Toast Helper
         function showToast(message, type = 'success') {
@@ -529,21 +617,37 @@
             }, 3500);
         }
 
-        // Load projects from browser storage
-        function loadProjects() {
-            try {
-                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
-            } catch (e) {
-                console.error('Failed to parse portfolio projects:', e);
-                projects = [];
-            }
-            updateStats();
-            renderProjectsList();
-        }
+        // Load projects from Database (API)
+        async function loadProjects() {
+            const dbWarning = document.getElementById('db-warning-banner');
+            const dbWarningMsg = document.getElementById('db-warning-message');
 
-        // Save projects to browser storage
-        function saveProjectsToLocalStorage() {
-            localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+            try {
+                const response = await fetch('/api/projects');
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    projects = result.data || [];
+                    dbWarning.classList.add('hidden');
+                } else {
+                    projects = [];
+                    if (result.type === 'db_connection_error') {
+                        dbWarning.classList.remove('hidden');
+                        dbWarningMsg.textContent = result.message;
+                    }
+                    showToast(result.message || 'ดึงข้อมูลไม่สำเร็จ', 'error');
+                }
+            } catch (e) {
+                console.error('Failed to fetch projects API:', e);
+                showToast('ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้', 'error');
+                
+                // Fallback attempt: read localStorage if server offline
+                try {
+                    projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+                } catch (err) {
+                    projects = [];
+                }
+            }
             updateStats();
             renderProjectsList();
         }
@@ -646,7 +750,7 @@
             btnText.classList.add('opacity-0');
             loadingSpinner.classList.remove('hidden');
 
-            showToast('กำลังวิเคราะห์และดึงข้อมูล Open Graph เมทาแท็ก...', 'info');
+            showToast('กำลังดึงข้อมูล Open Graph เมทาแท็กจากหลังบ้าน...', 'info');
 
             try {
                 const response = await fetch('/api/fetch-metadata', {
@@ -669,7 +773,7 @@
                     document.getElementById('project-image').value = data.image_url || '';
                     
                     updateLivePreview();
-                    showToast('ดึงข้อมูลหน้าเว็บเรียบร้อยแล้ว! สามารถแก้ไขเพิ่มเติมได้', 'success');
+                    showToast('ดึงข้อมูลหน้าเว็บเรียบร้อยแล้ว! ป้อนในฟอร์มแล้ว', 'success');
                     
                     // Clear scraping field
                     scrapingUrlInput.value = '';
@@ -678,7 +782,7 @@
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
-                showToast('ไม่สามารถเชื่อมต่อ Serverless API ได้ หรือ Timeout', 'error');
+                showToast('ไม่สามารถเชื่อมต่อ Serverless API หรือ Timeout', 'error');
             } finally {
                 // Reset loading state
                 fetchBtn.disabled = false;
@@ -687,8 +791,8 @@
             }
         }
 
-        // Save (Add or Update) project
-        function savePortfolioProject(event) {
+        // Save (Add or Update) project in MySQL via API
+        async function savePortfolioProject(event) {
             event.preventDefault();
 
             const pId = document.getElementById('project-id').value;
@@ -703,39 +807,72 @@
                 return;
             }
 
-            if (editingProjectId !== null) {
-                // Edit Mode
-                const index = projects.findIndex(p => p.id === editingProjectId);
-                if (index !== -1) {
-                    projects[index] = {
-                        ...projects[index],
-                        original_url: pUrl,
-                        title: pTitle,
-                        description: pDesc,
-                        image_url: pImage,
-                        status: pStatus,
-                        updated_at: new Date().toISOString()
-                    };
-                    showToast('อัปเดตข้อมูลโปรเจกต์เรียบร้อย!', 'success');
-                }
-                cancelEditing();
-            } else {
-                // Create Mode
-                const newProject = {
-                    id: Date.now().toString(), // String unique ID
-                    original_url: pUrl,
-                    title: pTitle,
-                    description: pDesc,
-                    image_url: pImage,
-                    status: pStatus,
-                    created_at: new Date().toISOString()
-                };
-                projects.unshift(newProject); // Prepend to the top
-                showToast('บันทึกเพิ่มโปรเจกต์ลงในพอร์ตโฟลิโอสำเร็จ!', 'success');
-                resetForm();
-            }
+            const isEditMode = editingProjectId !== null;
+            const payload = {
+                id: isEditMode ? editingProjectId : Date.now().toString(),
+                title: pTitle,
+                description: pDesc,
+                original_url: pUrl,
+                image_url: pImage,
+                status: pStatus
+            };
 
-            saveProjectsToLocalStorage();
+            showToast('กำลังทำการบันทึกข้อมูลเข้าสู่ MySQL...', 'info');
+
+            try {
+                const response = await fetch('/api/projects', {
+                    method: isEditMode ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    showToast(result.message || 'บันทึกข้อมูลเรียบร้อยแล้ว!', 'success');
+                    
+                    // ในกรณีบันทึกสำเร็จ ให้เก็บสำรองใน LocalStorage ด้วย เพื่อป้องกันกรณีเปิดเว็บออฟไลน์ในอนาคต
+                    saveToLocalBackup(payload, isEditMode);
+                    
+                    cancelEditing();
+                    loadProjects();
+                } else {
+                    showToast(result.message || 'บันทึกไม่สำเร็จ', 'error');
+                }
+            } catch (err) {
+                console.error('Error saving project:', err);
+                showToast('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ (ระบบจะทำบันทึกจำลองในเครื่อง)', 'error');
+                
+                // ทำงานสำรองใน LocalStorage ทันทีหากไม่มีเซิร์ฟเวอร์ MySQL รันอยู่
+                payload.updated_at = new Date().toISOString();
+                if (isEditMode) {
+                    const idx = projects.findIndex(p => p.id === editingProjectId);
+                    if (idx !== -1) projects[idx] = payload;
+                } else {
+                    payload.created_at = new Date().toISOString();
+                    projects.unshift(payload);
+                }
+                localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                cancelEditing();
+                updateStats();
+                renderProjectsList();
+            }
+        }
+
+        // บันทึกสำรองใน LocalStorage
+        function saveToLocalBackup(payload, isEditMode) {
+            try {
+                let localProjects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+                if (isEditMode) {
+                    const idx = localProjects.findIndex(p => p.id === payload.id);
+                    if (idx !== -1) {
+                        localProjects[idx] = { ...localProjects[idx], ...payload, updated_at: new Date().toISOString() };
+                    }
+                } else {
+                    payload.created_at = new Date().toISOString();
+                    localProjects.unshift(payload);
+                }
+                localStorage.setItem('portfolio_projects', JSON.stringify(localProjects));
+            } catch (e) {}
         }
 
         // Put a project into editing mode
@@ -753,11 +890,11 @@
 
             // Form Title, button and helper
             document.getElementById('form-action-title').textContent = 'แก้ไขโปรเจกต์';
-            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขโปรเจกต์';
+            document.getElementById('submit-btn-text').textContent = 'บันทึกการแก้ไขใน MySQL';
             document.getElementById('cancel-edit-btn').classList.remove('hidden');
 
             updateLivePreview();
-            showToast('เริ่มทำการแก้ไขโปรเจกต์...', 'info');
+            showToast('ดึงข้อมูลชิ้นงานเข้าฟอร์มแก้ไข...', 'info');
 
             // Scroll to form smoothly
             document.getElementById('portfolio-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -780,29 +917,91 @@
         }
 
         // Quick toggle Status (Draft <-> Published) directly in the table
-        function toggleProjectStatus(id) {
-            const index = projects.findIndex(p => p.id === id);
-            if (index !== -1) {
-                projects[index].status = projects[index].status === 'published' ? 'draft' : 'published';
-                projects[index].updated_at = new Date().toISOString();
-                saveProjectsToLocalStorage();
-                showToast(`เปลี่ยนสถานะเป็น ${projects[index].status === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'}`, 'success');
-            }
-        }
-
-        // Delete a project (with quick alert confirm)
-        function deleteProject(id) {
+        async function toggleProjectStatus(id) {
             const project = projects.find(p => p.id === id);
             if (!project) return;
 
-            const confirmDel = confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}"?`);
-            if (confirmDel) {
-                projects = projects.filter(p => p.id !== id);
-                if (editingProjectId === id) {
-                    cancelEditing();
+            const nextStatus = project.status === 'published' ? 'draft' : 'published';
+            const payload = { ...project, status: nextStatus };
+
+            showToast('กำลังแก้ไขสถานะชิ้นงานใน MySQL...', 'info');
+
+            try {
+                const response = await fetch('/api/projects', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    showToast(`เปลี่ยนสถานะเป็น ${nextStatus === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'} สำเร็จ`, 'success');
+                    saveToLocalBackup(payload, true);
+                    loadProjects();
+                } else {
+                    showToast(result.message || 'เปลี่ยนสถานะไม่สำเร็จ', 'error');
                 }
-                saveProjectsToLocalStorage();
-                showToast('ลบโปรเจกต์ออกจากระบบเรียบร้อย!', 'success');
+            } catch (err) {
+                console.error('Error toggling status:', err);
+                // Local fallback
+                const idx = projects.findIndex(p => p.id === id);
+                if (idx !== -1) {
+                    projects[idx].status = nextStatus;
+                    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                    showToast(`เปลี่ยนสถานะแบบออฟไลน์สำเร็จ!`, 'success');
+                    renderProjectsList();
+                    updateStats();
+                }
+            }
+        }
+
+        // Delete a project (with API request)
+        async function deleteProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            const confirmDel = confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก MySQL?`);
+            if (confirmDel) {
+                showToast('กำลังดำเนินการลบข้อมูล...', 'info');
+                
+                try {
+                    const response = await fetch('/api/projects', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: id })
+                    });
+                    const result = await response.json();
+
+                    if (response.ok && result.status === 'success') {
+                        showToast('ลบโปรเจกต์สำเร็จ!', 'success');
+                        
+                        // ลบออกจาก LocalStorage สำรองด้วย
+                        try {
+                            let backups = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+                            backups = backups.filter(p => p.id !== id);
+                            localStorage.setItem('portfolio_projects', JSON.stringify(backups));
+                        } catch (e) {}
+
+                        if (editingProjectId === id) {
+                            cancelEditing();
+                        }
+                        loadProjects();
+                    } else {
+                        showToast(result.message || 'ลบข้อมูลไม่สำเร็จ', 'error');
+                    }
+                } catch (err) {
+                    console.error('Error deleting project:', err);
+                    
+                    // Local fallback
+                    projects = projects.filter(p => p.id !== id);
+                    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                    if (editingProjectId === id) {
+                        cancelEditing();
+                    }
+                    showToast('ลบผลงานแบบออฟไลน์สำเร็จ!', 'success');
+                    renderProjectsList();
+                    updateStats();
+                }
             }
         }
 
@@ -814,7 +1013,7 @@
 
             // Filter projects
             const filteredProjects = projects.filter(p => {
-                return p.title.toLowerCase().includes(searchVal) || p.original_url.toLowerCase().includes(searchVal);
+                return (p.title || '').toLowerCase().includes(searchVal) || (p.original_url || '').toLowerCase().includes(searchVal);
             });
 
             tableBody.innerHTML = '';
@@ -828,10 +1027,10 @@
             filteredProjects.forEach((project, index) => {
                 const isPublished = project.status === 'published';
                 const statusBadge = isPublished
-                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-pointer" onclick="toggleProjectStatus('${project.id}')">
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-pointer select-none transition hover:scale-105" onclick="toggleProjectStatus('${project.id}')">
                          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
                        </span>`
-                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-pointer" onclick="toggleProjectStatus('${project.id}')">
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-pointer select-none transition hover:scale-105" onclick="toggleProjectStatus('${project.id}')">
                          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Draft (ร่าง)
                        </span>`;
 
@@ -875,6 +1074,142 @@
                 `;
                 tableBody.appendChild(tr);
             });
+        }
+
+        // ==========================================
+        // ฟังก์ชันระบบดึงลิงก์แบบกลุ่ม (Bulk Add URL System)
+        // ==========================================
+        async function runBulkFetchAndAdd() {
+            const bulkTextarea = document.getElementById('bulk-urls');
+            const urlsText = bulkTextarea.value.trim();
+            if (!urlsText) {
+                showToast('กรุณากรอกลิงก์ที่ต้องการเพิ่มอย่างน้อย 1 ลิงก์', 'error');
+                return;
+            }
+
+            // แยกบรรทัดและกรองตัวกรองลิงก์เปล่าออก
+            const rawUrls = urlsText.split('\n').map(u => u.trim()).filter(u => u !== '');
+            const validUrls = [];
+            
+            // ตรวจสอบรูปแบบลิงก์พื้นฐาน
+            for (const url of rawUrls) {
+                try {
+                    new URL(url);
+                    validUrls.push(url);
+                } catch (e) {
+                    // รูปแบบไม่ถูกต้อง ข้ามไป
+                }
+            }
+
+            if (validUrls.length === 0) {
+                showToast('ไม่พบลิงก์ที่มีรูปแบบที่ถูกต้อง (ต้องขึ้นต้นด้วย http:// หรือ https://)', 'error');
+                return;
+            }
+
+            // แสดงหน้าต่าง Progress การทำงานกลุ่ม
+            const progressContainer = document.getElementById('bulk-progress-container');
+            const progressList = document.getElementById('bulk-progress-list');
+            const progressBar = document.getElementById('bulk-progress-bar');
+            const progressPercent = document.getElementById('bulk-progress-percent');
+            const progressStatus = document.getElementById('bulk-progress-status');
+            const bulkSubmitBtn = document.getElementById('bulk-submit-btn');
+
+            progressContainer.classList.remove('hidden');
+            progressList.innerHTML = '';
+            bulkSubmitBtn.disabled = true;
+            
+            let successCount = 0;
+            let failCount = 0;
+            const total = validUrls.length;
+
+            showToast(`เริ่มต้นวิเคราะห์ลิงก์กลุ่มทั้งหมด ${total} เว็บไซต์...`, 'info');
+
+            for (let i = 0; i < total; i++) {
+                const url = validUrls[i];
+                const percent = Math.round(((i + 1) / total) * 100);
+                
+                progressBar.style.width = `${percent}%`;
+                progressPercent.textContent = `${percent}%`;
+                progressStatus.textContent = `กำลังดึงข้อมูล (${i + 1}/${total}): ${url}`;
+
+                // สร้างสถานะกำลังโหลด
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex items-center justify-between text-xs py-1.5 border-b border-white/5 text-gray-400';
+                itemEl.innerHTML = `
+                    <span class="truncate max-w-[70%]" title="${escapeHtml(url)}">${escapeHtml(url)}</span>
+                    <span class="text-indigo-400 animate-pulse font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span> กำลังดึง...
+                    </span>
+                `;
+                progressList.appendChild(itemEl);
+                itemEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                try {
+                    // 1. ดึงเมทาแท็กแบบ Serverless
+                    const fetchRes = await fetch('/api/fetch-metadata', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: url })
+                    });
+                    const fetchResult = await fetchRes.json();
+
+                    if (fetchRes.ok && fetchResult.status === 'success') {
+                        const metadata = fetchResult.data;
+                        const uniqueId = Date.now().toString() + '_' + Math.random().toString(36).substr(2, 5);
+                        
+                        const projectPayload = {
+                            id: uniqueId,
+                            title: metadata.title || 'Untitled Site',
+                            description: metadata.description || '',
+                            original_url: metadata.original_url || url,
+                            image_url: metadata.image_url || '',
+                            status: 'published'
+                        };
+
+                        // 2. บันทึกลงตารางฐานข้อมูล MySQL
+                        const saveRes = await fetch('/api/projects', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(projectPayload)
+                        });
+                        const saveResult = await saveRes.json();
+
+                        if (saveRes.ok && saveResult.status === 'success') {
+                            successCount++;
+                            itemEl.innerHTML = `
+                                <span class="truncate max-w-[70%] text-white font-medium" title="${escapeHtml(metadata.title)}">${escapeHtml(metadata.title)}</span>
+                                <span class="text-emerald-400 font-semibold">✓ สำเร็จ</span>
+                            `;
+                            // เก็บสำรองใน LocalStorage
+                            saveToLocalBackup(projectPayload, false);
+                        } else {
+                            throw new Error(saveResult.message || 'บันทึกลงฐานข้อมูลล้มเหลว');
+                        }
+                    } else {
+                        throw new Error(fetchResult.message || 'ดึงเมทาแท็กไม่สำเร็จ');
+                    }
+                } catch (err) {
+                    failCount++;
+                    itemEl.innerHTML = `
+                        <span class="truncate max-w-[70%] text-gray-500" title="${escapeHtml(url)}">${escapeHtml(url)}</span>
+                        <span class="text-red-400 font-semibold" title="${escapeHtml(err.message)}">✗ ล้มเหลว (${escapeHtml(err.message.substring(0, 15))}...)</span>
+                    `;
+                }
+            }
+
+            // สิ้นสุดการประมวลผลกลุ่ม
+            progressBar.style.width = '100%';
+            progressPercent.textContent = '100%';
+            progressStatus.textContent = `ประมวลผลเสร็จสิ้น: สำเร็จ ${successCount} ลิงก์ | ล้มเหลว ${failCount} ลิงก์`;
+            bulkSubmitBtn.disabled = false;
+            
+            showToast(`ดึงข้อมูลกลุ่มสำเร็จ ${successCount} ลิงก์, ล้มเหลว ${failCount} ลิงก์`, successCount > 0 ? 'success' : 'error');
+            
+            // เคลียร์กล่องข้อความ
+            bulkTextarea.value = '';
+            
+            // โหลดตารางและค่าสถิติใหม่จากฐานข้อมูล
+            loadProjects();
         }
 
         // Helper helper

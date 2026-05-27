@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Creative Portfolio</title>
+    <title>Peerapat Kunsubstid | Creative Portfolio</title>
     
     <!-- Meta Tags สำหรับ SEO & Testing -->
-    <meta name="description" content="พื้นที่แสดงผลงานและโปรเจกต์สร้างสรรค์ของฉัน รวบรวมลิงก์และผลงานคุณภาพด้วยสไตล์ที่ทันสมัย">
-    <meta name="author" content="Creative Developer">
+    <meta name="description" content="พื้นที่แสดงผลงานและโปรเจกต์สร้างสรรค์ของ Peerapat Kunsubstid รวบรวมลิงก์และผลงานคุณภาพด้วยสไตล์ที่ทันสมัย">
+    <meta name="author" content="Peerapat Kunsubstid">
     
     <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,8 +85,8 @@
     <!-- Navigation Bar -->
     <nav class="sticky top-0 z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="font-title text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
-                PORTFOLIO
+            <a href="index.html" class="font-title text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:opacity-90 transition duration-300">
+                PEERAPAT.K
             </a>
             <div class="flex items-center gap-6">
                 <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition duration-200">ผลงานทั้งหมด</a>
@@ -102,16 +102,16 @@
     <header class="relative pt-20 pb-16 px-6 text-center">
         <div class="max-w-4xl mx-auto">
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-6 uppercase tracking-wider">
-                💡 Web Developer Creative Portfolio
+                💡 PORTFOLIO OF PEERAPAT KUNSUBSTID
             </span>
             <h1 class="font-title text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
                 รังสรรค์ไอเดียสู่นวัตกรรม<br>
                 <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    ผ่านโปรเจกต์สุดพิเศษ
+                    โดย Peerapat Kunsubstid
                 </span>
             </h1>
             <p class="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
-                รวบรวมชิ้นงาน เทคโนโลยี และเว็บไซต์ที่สร้างขึ้นและพัฒนาอย่างสร้างสรรค์ โดยระบบจะดึงข้อมูลภาพและคำอธิบายมาจากการกรอก URL อัตโนมัติ ปลุกความเป็นไปได้ของการจัดแสดงผลงานที่ไร้พรมแดน
+                รวบรวมชิ้นงาน เทคโนโลยี และเว็บไซต์สร้างสรรค์ที่พัฒนาอย่างประณีต ข้อมูลทั้งหมดได้รับการจัดเก็บในฐานข้อมูล MySQL และอัปเดตผ่านระบบหลังบ้านดึงลิงก์อัตโนมัติ
             </p>
             <div class="flex flex-wrap items-center justify-center gap-4">
                 <a href="#projects" class="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition duration-200 shadow-lg shadow-indigo-600/30">
@@ -129,14 +129,14 @@
         <div class="flex items-center justify-between border-b border-white/5 pb-6 mb-12">
             <div>
                 <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">ผลงานสะสม (Projects)</h2>
-                <p class="text-sm text-gray-400 mt-1">คอลเลกชันลิงก์โปรเจกต์ที่น่าสนใจและหน้าเว็บต่างๆ</p>
+                <p class="text-sm text-gray-400 mt-1">คอลเลกชันลิงก์โปรเจกต์ที่เชื่อมโยงกับฐานข้อมูล MySQL ของคุณ</p>
             </div>
             <div class="text-sm text-gray-400">
                 มีทั้งหมด <span id="project-count" class="text-indigo-400 font-semibold">0</span> โปรเจกต์
             </div>
         </div>
 
-        <!-- Render Container (เดี๋ยวให้ JS วาดตรงนี้) -->
+        <!-- Render Container -->
         <div id="projects-container"></div>
     </main>
 
@@ -144,7 +144,7 @@
     <footer class="mt-20 border-t border-white/5 py-10 text-center text-sm text-gray-500 glass-nav">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                &copy; <span id="year"></span> Creative Portfolio. สงวนลิขสิทธิ์ทั้งหมด
+                &copy; <span id="year"></span> Peerapat Kunsubstid. สงวนลิขสิทธิ์ทั้งหมด
             </div>
             <div class="flex items-center gap-4">
                 <a href="#" class="hover:text-gray-300 transition">นโยบายส่วนบุคคล</a>
@@ -153,105 +153,199 @@
         </div>
     </footer>
 
-    <!-- JS สำหรับเรนเดอร์การ์ดโปรเจกต์จาก LocalStorage -->
+    <!-- JS สำหรับเรนเดอร์การ์ดโปรเจกต์จาก MySQL / Fallback LocalStorage -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
         document.addEventListener('DOMContentLoaded', function () {
+            fetchProjects();
+        });
+
+        // ดึงรายการโครงการจาก API (MySQL)
+        async function fetchProjects() {
             const container = document.getElementById('projects-container');
             const projectCountSpan = document.getElementById('project-count');
 
-            // 1. Load projects from LocalStorage
-            let projects = [];
+            container.className = "";
+            container.innerHTML = `
+                <div class="text-center py-24">
+                    <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4"></div>
+                    <p class="text-gray-400 text-sm">กำลังโหลดผลงานจากฐานข้อมูล MySQL...</p>
+                </div>
+            `;
+
             try {
-                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
-            } catch (e) {
-                console.error('Failed to parse localStorage:', e);
-                projects = [];
-            }
+                const response = await fetch('/api/projects');
+                const result = await response.json();
 
-            // Filter for published status only
-            const publishedProjects = projects.filter(p => p.status === 'published');
-            projectCountSpan.textContent = publishedProjects.length;
+                if (result.status === 'success') {
+                    const projects = result.data || [];
+                    const publishedProjects = projects.filter(p => p.status === 'published');
+                    projectCountSpan.textContent = publishedProjects.length;
 
-            if (publishedProjects.length === 0) {
-                // Render Empty State
-                container.className = "";
-                container.innerHTML = `
-                    <div class="text-center py-24 glass-card rounded-3xl max-w-2xl mx-auto p-8 border border-dashed border-white/10">
-                        <div class="w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                        </div>
-                        <h3 class="font-title text-xl font-bold text-white mb-2">ยังไม่มีโปรเจกต์จัดแสดง</h3>
-                        <p class="text-gray-400 mb-6 max-w-sm mx-auto">ระบบหลังบ้านยังว่างอยู่ คุณสามารถเข้าไปเพื่อดึงข้อมูลลิงก์ของเว็บไซต์และเพิ่มเข้ามาได้ทันที!</p>
-                        <a href="admin.html" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition duration-200">
-                            ไปที่ระบบหลังบ้านเพื่อเพิ่มผลงาน
-                        </a>
-                    </div>
-                `;
-            } else {
-                // Render Responsive Grid
-                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8";
+                    if (publishedProjects.length === 0) {
+                        renderEmptyState(container);
+                    } else {
+                        renderProjectsGrid(container, publishedProjects);
+                    }
+                } else {
+                    if (result.type === 'db_connection_error') {
+                        renderDatabaseError(container, result.message);
+                    } else {
+                        renderGeneralError(container, result.message || 'ไม่สามารถดึงข้อมูลผลงานได้');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching projects:', error);
                 
-                let htmlContent = '';
-                publishedProjects.forEach((project, index) => {
-                    const hostName = getHostname(project.original_url);
-                    const imageMarkup = project.image_url 
-                        ? `<img src="${project.image_url}" alt="${escapeHtml(project.title)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="handleImageError(this, '${escapeHtml(project.title)}')">`
-                        : getFallbackGradient(project.title, index);
+                // ระบบ Fallback: หากเชื่อมต่อ API ไม่ได้จริงๆ จะลองค้นหาใน LocalStorage สำรอง
+                let localBackup = [];
+                try {
+                    localBackup = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+                } catch (e) {}
 
-                    htmlContent += `
-                        <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] group relative">
-                            <div>
-                                <!-- Image Frame -->
-                                <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60">
-                                    ${imageMarkup}
-                                    
-                                    <!-- Hover Link Overlay -->
-                                    <a href="${escapeHtml(project.original_url)}" target="_blank" rel="noopener noreferrer" class="absolute inset-0 bg-indigo-950/80 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-20">
-                                        <span class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300 shadow-md">
-                                            เยี่ยมชมเว็บไซต์ ↗
-                                        </span>
-                                    </a>
-                                </div>
+                const publishedBackup = localBackup.filter(p => p.status === 'published');
+                if (publishedBackup.length > 0) {
+                    console.log('API Failed, using LocalStorage fallback.');
+                    projectCountSpan.textContent = publishedBackup.length;
+                    renderProjectsGrid(container, publishedBackup);
+                    showOfflineIndicator();
+                } else {
+                    renderGeneralError(container, 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบว่าคุณกำลังรันระบบด้วย vercel dev หรือตรวจสอบฐานข้อมูล');
+                }
+            }
+        }
 
-                                <!-- Body -->
-                                <div class="p-6">
-                                    <header class="mb-3">
-                                        <div class="text-xs text-indigo-400 font-semibold mb-1 uppercase tracking-wider truncate" title="${escapeHtml(project.original_url)}">
-                                            ${escapeHtml(hostName)}
-                                        </div>
-                                        <h3 class="font-title text-xl font-bold text-white line-clamp-1 group-hover:text-indigo-300 transition duration-200">
-                                            ${escapeHtml(project.title)}
-                                        </h3>
-                                    </header>
-                                    <p class="text-gray-400 text-sm leading-relaxed line-clamp-3">
-                                        ${escapeHtml(project.description)}
-                                    </p>
-                                </div>
-                            </div>
+        // วาดรูปกริดผลงานสะสม
+        function renderProjectsGrid(container, publishedProjects) {
+            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8";
+            
+            let htmlContent = '';
+            publishedProjects.forEach((project, index) => {
+                const hostName = getHostname(project.original_url);
+                const imageMarkup = project.image_url 
+                    ? `<img src="${project.image_url}" alt="${escapeHtml(project.title)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="handleImageError(this, '${escapeHtml(project.title)}')">`
+                    : getFallbackGradient(project.title, index);
 
-                            <!-- Footer button -->
-                            <div class="px-6 pb-6 pt-2">
-                                <a 
-                                    href="${escapeHtml(project.original_url)}" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    class="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 text-center text-xs font-semibold text-gray-300 group-hover:text-white transition duration-200 flex items-center justify-center gap-2"
-                                    id="project-card-${index}"
-                                >
-                                    Link URL ต้นฉบับ
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                htmlContent += `
+                    <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] group relative">
+                        <div>
+                            <!-- Image Frame -->
+                            <div class="relative aspect-video w-full overflow-hidden bg-gray-900/60">
+                                ${imageMarkup}
+                                
+                                <!-- Hover Link Overlay -->
+                                <a href="${escapeHtml(project.original_url)}" target="_blank" rel="noopener noreferrer" class="absolute inset-0 bg-indigo-950/80 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-20">
+                                    <span class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm transform translate-y-4 group-hover:translate-y-0 transition duration-300 shadow-md">
+                                        เยี่ยมชมเว็บไซต์ ↗
+                                    </span>
                                 </a>
                             </div>
-                        </article>
-                    `;
-                });
-                container.innerHTML = htmlContent;
-            }
-        });
 
-        // Helper functions
+                            <!-- Body -->
+                            <div class="p-6">
+                                <div class="text-xs text-indigo-400 font-semibold mb-1 uppercase tracking-wider truncate" title="${escapeHtml(project.original_url)}">
+                                    ${escapeHtml(hostName)}
+                                </div>
+                                <h3 class="font-title text-xl font-bold text-white line-clamp-1 group-hover:text-indigo-300 transition duration-200">
+                                    ${escapeHtml(project.title)}
+                                </h3>
+                                <p class="text-gray-400 text-sm leading-relaxed line-clamp-3 mt-2">
+                                    ${escapeHtml(project.description)}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Footer button -->
+                        <div class="px-6 pb-6 pt-2">
+                            <a 
+                                href="${escapeHtml(project.original_url)}" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                class="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 text-center text-xs font-semibold text-gray-300 group-hover:text-white transition duration-200 flex items-center justify-center gap-2"
+                                id="project-card-${index}"
+                            >
+                                Link URL ต้นฉบับ
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            </a>
+                        </div>
+                    </article>
+                `;
+            });
+            container.innerHTML = htmlContent;
+        }
+
+        // วาดสถานะว่างเปล่า (Empty State)
+        function renderEmptyState(container) {
+            container.className = "";
+            container.innerHTML = `
+                <div class="text-center py-24 glass-card rounded-3xl max-w-2xl mx-auto p-8 border border-dashed border-white/10">
+                    <div class="w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </div>
+                    <h3 class="font-title text-xl font-bold text-white mb-2">ยังไม่มีโปรเจกต์จัดแสดง</h3>
+                    <p class="text-gray-400 mb-6 max-w-sm mx-auto">ยังไม่มีข้อมูลผลงานถูกจัดเก็บในฐานข้อมูล MySQL คุณสามารถเข้าไปยังแผงควบคุมหลังบ้านเพื่อเพิ่มผลงานได้ทันที!</p>
+                    <a href="admin.html" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition duration-200">
+                        ไปที่ระบบหลังบ้านเพื่อเพิ่มผลงาน
+                    </a>
+                </div>
+            `;
+        }
+
+        // วาดสถานะผิดพลาดเนื่องจากหาฐานข้อมูลไม่เจอ (Custom DB Error UX)
+        function renderDatabaseError(container, message) {
+            container.className = "";
+            container.innerHTML = `
+                <div class="text-center py-12 glass-card rounded-3xl max-w-2xl mx-auto p-8 border border-red-500/20 bg-red-950/5">
+                    <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6 text-red-400 animate-pulse">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </div>
+                    <h3 class="font-title text-xl font-bold text-white mb-3">ไม่สามารถเชื่อมต่อฐานข้อมูล MySQL ได้</h3>
+                    <p class="text-red-300/80 text-xs mb-6 leading-relaxed text-left bg-black/45 p-4 rounded-xl font-mono overflow-auto max-h-36 border border-white/5">
+                        ${escapeHtml(message)}
+                    </p>
+                    <div class="text-left space-y-2.5 text-xs text-gray-400 bg-white/5 p-4 rounded-xl border border-white/5">
+                        <div class="font-semibold text-indigo-400">💡 วิธีแก้ไขการเชื่อมต่อ (สำหรับ XAMPP บนคอมพิวเตอร์ของคุณ):</div>
+                        <div>1. เปิดโปรแกรม <span class="text-white font-semibold">XAMPP Control Panel</span></div>
+                        <div>2. คลิกปุ่ม <span class="text-emerald-400 font-semibold">Start</span> ข้างข้อความ <span class="text-white font-semibold">MySQL</span> ให้แถบเป็นสีเขียว</div>
+                        <div>3. เปิดเว็บเบราว์เซอร์ไปที่ <a href="http://localhost/phpmyadmin" target="_blank" class="text-indigo-400 underline hover:text-indigo-300">localhost/phpmyadmin</a> แล้วสร้างฐานข้อมูลชื่อ <span class="text-indigo-400 font-semibold font-mono">portfolio</span></div>
+                        <div>4. นำเข้า (Import) สคริปต์จากไฟล์ <span class="text-indigo-400 font-semibold font-mono">database.sql</span> ในโฟลเดอร์โครงการเพื่อสร้างตารางข้อมูล</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // วาดการแจ้งเตือนกรณีข้อผิดพลาดทั่วไป
+        function renderGeneralError(container, message) {
+            container.className = "";
+            container.innerHTML = `
+                <div class="text-center py-20 glass-card rounded-3xl max-w-xl mx-auto p-8 border border-white/5">
+                    <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6 text-red-400">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-title text-lg font-bold text-white mb-2">เกิดข้อผิดพลาดในการโหลดข้อมูล</h3>
+                    <p class="text-gray-400 mb-6 text-sm">${escapeHtml(message)}</p>
+                    <button onclick="fetchProjects()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition">
+                        ลองเรียกข้อมูลใหม่อีกครั้ง
+                    </button>
+                </div>
+            `;
+        }
+
+        // แจ้งเตือนสถานะ Offline Fallback
+        function showOfflineIndicator() {
+            if (document.getElementById('offline-banner')) return;
+            const banner = document.createElement('div');
+            banner.id = 'offline-banner';
+            banner.className = 'fixed bottom-6 left-6 z-50 glass-card px-4 py-2.5 rounded-xl border border-amber-500/20 bg-amber-950/10 text-amber-400 text-xs font-semibold flex items-center gap-2 shadow-2xl animate-bounce';
+            banner.innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                โหมดออฟไลน์: กำลังแสดงข้อมูลผลงานสำรองจากคอมพิวเตอร์ของคุณ
+            `;
+            document.body.appendChild(banner);
+        }
+
+        // ฟังก์ชันช่วยเหลือทั่วไป
         function getHostname(urlStr) {
             try {
                 return new URL(urlStr).hostname;
