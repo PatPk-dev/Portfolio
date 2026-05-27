@@ -7,6 +7,6 @@
     "start": "vercel dev"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.106.2"
+    "mysql2": "^3.22.4"
   }
 }

@@ -129,7 +129,7 @@
         <div class="flex items-center justify-between border-b border-white/5 pb-6 mb-12">
             <div>
                 <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">ผลงานสะสม (Projects)</h2>
-                <p class="text-sm text-gray-400 mt-1">คอลเลกชันลิงก์โปรเจกต์ที่เชื่อมโยงกับฐานข้อมูล Supabase ของคุณ</p>
+                <p class="text-sm text-gray-400 mt-1">คอลเลกชันลิงก์โปรเจกต์ที่เชื่อมโยงกับฐานข้อมูล MySQL ของคุณ</p>
             </div>
             <div class="text-sm text-gray-400">
                 มีทั้งหมด <span id="project-count" class="text-indigo-400 font-semibold">0</span> โปรเจกต์
@@ -170,7 +170,7 @@
             container.innerHTML = `
                 <div class="text-center py-24">
                     <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4"></div>
-                    <p class="text-gray-400 text-sm">กำลังโหลดผลงานจากฐานข้อมูล Supabase Cloud...</p>
+                    <p class="text-gray-400 text-sm">กำลังโหลดผลงานจากฐานข้อมูล MySQL...</p>
                 </div>
             `;
 
@@ -189,7 +189,7 @@
                         renderProjectsGrid(container, publishedProjects);
                     }
                 } else {
-                    if (result.type === 'supabase_config_error' || result.type === 'db_connection_error') {
+                    if (result.type === 'db_connection_error') {
                         renderDatabaseError(container, result.message);
                     } else {
                         renderGeneralError(container, result.message || 'ไม่สามารถดึงข้อมูลผลงานได้');
@@ -197,7 +197,7 @@
                 }
             } catch (error) {
                 console.error('Error fetching projects:', error);
-                renderGeneralError(container, 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบการตั้งค่าตัวแปรสภาพแวดล้อมฐานข้อมูล Supabase ในไฟล์ .env ของคุณ');
+                renderGeneralError(container, 'ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้ กรุณาตรวจสอบการเปิด XAMPP MySQL หรือตัวแปรสภาพแวดล้อมฐานข้อมูล');
             }
         }
 
@@ -269,7 +269,7 @@
                         <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     </div>
                     <h3 class="font-title text-xl font-bold text-white mb-2">ยังไม่มีโปรเจกต์จัดแสดง</h3>
-                    <p class="text-gray-400 mb-6 max-w-sm mx-auto">ยังไม่มีข้อมูลผลงานถูกจัดเก็บในฐานข้อมูล Supabase คุณสามารถเข้าไปยังแผงควบคุมหลังบ้านเพื่อเพิ่มผลงานได้ทันที!</p>
+                    <p class="text-gray-400 mb-6 max-w-sm mx-auto">ยังไม่มีข้อมูลผลงานถูกจัดเก็บในฐานข้อมูล MySQL คุณสามารถเข้าไปยังแผงควบคุมหลังบ้านเพื่อเพิ่มผลงานได้ทันที!</p>
                     <a href="admin.html" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition duration-200">
                         ไปที่ระบบหลังบ้านเพื่อเพิ่มผลงาน
                     </a>
@@ -285,16 +285,16 @@
                     <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6 text-red-400 animate-pulse">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     </div>
-                    <h3 class="font-title text-xl font-bold text-white mb-3">ไม่สามารถเชื่อมต่อฐานข้อมูล Supabase ได้</h3>
+                    <h3 class="font-title text-xl font-bold text-white mb-3">ไม่สามารถเชื่อมต่อฐานข้อมูล MySQL ได้</h3>
                     <p class="text-red-300/80 text-xs mb-6 leading-relaxed text-left bg-black/45 p-4 rounded-xl font-mono overflow-auto max-h-36 border border-white/5">
                         ${escapeHtml(message)}
                     </p>
                     <div class="text-left space-y-2.5 text-xs text-gray-400 bg-white/5 p-4 rounded-xl border border-white/5">
-                        <div class="font-semibold text-indigo-400">💡 วิธีแก้ไขการเชื่อมต่อฐานข้อมูล Supabase:</div>
-                        <div>1. ลงทะเบียนและสร้างโปรเจกต์ที่ <a href="https://supabase.com" target="_blank" class="text-indigo-400 underline hover:text-indigo-300 font-semibold">Supabase.com</a></div>
-                        <div>2. ไปที่เมนู <span class="text-white font-semibold">Project Settings -> API</span> คัดลอกค่า <span class="text-indigo-300 font-semibold font-mono">Project URL</span> และ <span class="text-indigo-300 font-semibold font-mono">Anon API Key</span></div>
-                        <div>3. นำค่ามาใส่ในไฟล์ <span class="text-white font-semibold font-mono">.env</span> ที่เครื่องคอมพิวเตอร์ของคุณ (ตัวแปร: <span class="font-mono text-indigo-400">SUPABASE_URL</span> และ <span class="font-mono text-indigo-400">SUPABASE_ANON_KEY</span>)</div>
-                        <div>4. ไปที่เมนู <span class="text-white font-semibold">SQL Editor</span> บนหน้าเว็บ Supabase แล้วรัน SQL เพื่อสร้างตารางข้อมูล</div>
+                        <div class="font-semibold text-indigo-400">💡 วิธีแก้ไขการเชื่อมต่อ (สำหรับ XAMPP บนคอมพิวเตอร์ของคุณ):</div>
+                        <div>1. เปิดโปรแกรม <span class="text-white font-semibold">XAMPP Control Panel</span></div>
+                        <div>2. คลิกปุ่ม <span class="text-emerald-400 font-semibold">Start</span> ข้างข้อความ <span class="text-white font-semibold">MySQL</span> ให้แถบเป็นสีเขียว</div>
+                        <div>3. เปิดเว็บเบราว์เซอร์ไปที่ <a href="http://localhost/phpmyadmin" target="_blank" class="text-indigo-400 underline hover:text-indigo-300">localhost/phpmyadmin</a> แล้วสร้างฐานข้อมูลชื่อ <span class="text-indigo-400 font-semibold font-mono">portfolio</span></div>
+                        <div>4. นำเข้า (Import) สคริปต์จากไฟล์ <span class="text-indigo-400 font-semibold font-mono">database.sql</span> ในโฟลเดอร์โครงการเพื่อสร้างตารางข้อมูล</div>
                     </div>
                 </div>
             `;
