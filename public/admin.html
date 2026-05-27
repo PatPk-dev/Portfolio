@@ -617,10 +617,13 @@
             }, 3500);
         }
 
+        let isOfflineMode = false;
+
         // Load projects from Database (API)
         async function loadProjects() {
             const dbWarning = document.getElementById('db-warning-banner');
             const dbWarningMsg = document.getElementById('db-warning-message');
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
             try {
                 const response = await fetch('/api/projects');
@@ -629,27 +632,54 @@
                 if (result.status === 'success') {
                     projects = result.data || [];
                     dbWarning.classList.add('hidden');
+                    isOfflineMode = false;
                 } else {
                     projects = [];
                     if (result.type === 'db_connection_error') {
-                        dbWarning.classList.remove('hidden');
-                        dbWarningMsg.textContent = result.message;
+                        if (isLocalhost) {
+                            dbWarning.classList.remove('hidden');
+                            dbWarningMsg.textContent = result.message;
+                            showToast('ล้มเหลวในการเชื่อมต่อ XAMPP MySQL', 'error');
+                            isOfflineMode = false;
+                        } else {
+                            // On Vercel cloud, silently switch to LocalStorage mode!
+                            dbWarning.classList.add('hidden');
+                            isOfflineMode = true;
+                            loadLocalProjectsOffline();
+                            showCloudLocalStorageIndicator();
+                        }
+                    } else {
+                        showToast(result.message || 'ดึงข้อมูลไม่สำเร็จ', 'error');
                     }
-                    showToast(result.message || 'ดึงข้อมูลไม่สำเร็จ', 'error');
                 }
             } catch (e) {
                 console.error('Failed to fetch projects API:', e);
-                showToast('ไม่สามารถเชื่อมต่อ Serverless API หลังบ้านได้', 'error');
-                
-                // Fallback attempt: read localStorage if server offline
-                try {
-                    projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
-                } catch (err) {
-                    projects = [];
-                }
+                isOfflineMode = true;
+                loadLocalProjectsOffline();
+                showCloudLocalStorageIndicator();
             }
             updateStats();
             renderProjectsList();
+        }
+
+        function loadLocalProjectsOffline() {
+            try {
+                projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            } catch (err) {
+                projects = [];
+            }
+        }
+
+        function showCloudLocalStorageIndicator() {
+            if (document.getElementById('cloud-mode-banner')) return;
+            const banner = document.createElement('div');
+            banner.id = 'cloud-mode-banner';
+            banner.className = 'fixed bottom-6 left-6 z-50 glass-card px-4 py-2.5 rounded-xl border border-indigo-500/20 bg-indigo-950/10 text-indigo-400 text-xs font-semibold flex items-center gap-2 shadow-2xl';
+            banner.innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                Cloud Mode: บันทึกในเบราว์เซอร์ของคุณ (LocalStorage)
+            `;
+            document.body.appendChild(banner);
         }
 
         // Recalculate and update the dashboard statistics
@@ -817,6 +847,24 @@
                 status: pStatus
             };
 
+            if (isOfflineMode) {
+                // Cloud / LocalStorage Mode directly
+                payload.updated_at = new Date().toISOString();
+                if (isEditMode) {
+                    const idx = projects.findIndex(p => p.id === editingProjectId);
+                    if (idx !== -1) projects[idx] = payload;
+                } else {
+                    payload.created_at = new Date().toISOString();
+                    projects.unshift(payload);
+                }
+                localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                showToast('บันทึกลงเบราว์เซอร์สำเร็จ (Cloud LocalStorage Mode)', 'success');
+                cancelEditing();
+                updateStats();
+                renderProjectsList();
+                return;
+            }
+
             showToast('กำลังทำการบันทึกข้อมูลเข้าสู่ MySQL...', 'info');
 
             try {
@@ -924,6 +972,18 @@
             const nextStatus = project.status === 'published' ? 'draft' : 'published';
             const payload = { ...project, status: nextStatus };
 
+            if (isOfflineMode) {
+                const idx = projects.findIndex(p => p.id === id);
+                if (idx !== -1) {
+                    projects[idx].status = nextStatus;
+                    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                    showToast(`เปลี่ยนสถานะเป็น ${nextStatus === 'published' ? 'เผยแพร่' : 'ฉบับร่าง'} สำเร็จ`, 'success');
+                    renderProjectsList();
+                    updateStats();
+                }
+                return;
+            }
+
             showToast('กำลังแก้ไขสถานะชิ้นงานใน MySQL...', 'info');
 
             try {
@@ -960,8 +1020,24 @@
             const project = projects.find(p => p.id === id);
             if (!project) return;
 
-            const confirmDel = confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก MySQL?`);
+            const confirmText = isOfflineMode 
+                ? `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจากเบราว์เซอร์?`
+                : `คุณแน่ใจหรือไม่ว่าต้องการลบโปรเจกต์ "${project.title}" ออกจาก MySQL?`;
+
+            const confirmDel = confirm(confirmText);
             if (confirmDel) {
+                if (isOfflineMode) {
+                    projects = projects.filter(p => p.id !== id);
+                    localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+                    if (editingProjectId === id) {
+                        cancelEditing();
+                    }
+                    showToast('ลบโปรเจกต์สำเร็จ!', 'success');
+                    updateStats();
+                    renderProjectsList();
+                    return;
+                }
+
                 showToast('กำลังดำเนินการลบข้อมูล...', 'info');
                 
                 try {
@@ -1166,24 +1242,35 @@
                             status: 'published'
                         };
 
-                        // 2. บันทึกลงตารางฐานข้อมูล MySQL
-                        const saveRes = await fetch('/api/projects', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(projectPayload)
-                        });
-                        const saveResult = await saveRes.json();
-
-                        if (saveRes.ok && saveResult.status === 'success') {
+                        if (isOfflineMode) {
                             successCount++;
                             itemEl.innerHTML = `
                                 <span class="truncate max-w-[70%] text-white font-medium" title="${escapeHtml(metadata.title)}">${escapeHtml(metadata.title)}</span>
                                 <span class="text-emerald-400 font-semibold">✓ สำเร็จ</span>
                             `;
-                            // เก็บสำรองใน LocalStorage
-                            saveToLocalBackup(projectPayload, false);
+                            // เก็บลงใน LocalStorage ตรงๆ
+                            projects.unshift(projectPayload);
+                            localStorage.setItem('portfolio_projects', JSON.stringify(projects));
                         } else {
-                            throw new Error(saveResult.message || 'บันทึกลงฐานข้อมูลล้มเหลว');
+                            // 2. บันทึกลงตารางฐานข้อมูล MySQL
+                            const saveRes = await fetch('/api/projects', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(projectPayload)
+                            });
+                            const saveResult = await saveRes.json();
+
+                            if (saveRes.ok && saveResult.status === 'success') {
+                                successCount++;
+                                itemEl.innerHTML = `
+                                    <span class="truncate max-w-[70%] text-white font-medium" title="${escapeHtml(metadata.title)}">${escapeHtml(metadata.title)}</span>
+                                    <span class="text-emerald-400 font-semibold">✓ สำเร็จ</span>
+                                `;
+                                // เก็บสำรองใน LocalStorage
+                                saveToLocalBackup(projectPayload, false);
+                            } else {
+                                throw new Error(saveResult.message || 'บันทึกลงฐานข้อมูลล้มเหลว');
+                            }
                         }
                     } else {
                         throw new Error(fetchResult.message || 'ดึงเมทาแท็กไม่สำเร็จ');
